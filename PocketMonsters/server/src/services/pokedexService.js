@@ -18,4 +18,14 @@ async function getPokemonById(req, res) {
   });
 }
 
-module.exports = { getPokemonData, getPokemonById };
+async function getPokedex(req, res) {
+  pokedexController.fetchPokedex(req.query, (err, data) => {
+    if (err) {
+      console.log("error===>", err);
+      return res.status(500).json({ error: "Failed to fetch data" });
+    }
+    res.json(data);
+  });
+}
+
+module.exports = { getPokemonData, getPokemonById, getPokedex };

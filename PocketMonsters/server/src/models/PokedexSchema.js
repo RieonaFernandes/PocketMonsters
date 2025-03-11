@@ -263,6 +263,12 @@ const PokedexSchema = new mongoose.Schema({
       },
     },
   ],
+  type: Array,
+  weaknesses: Array,
+  images: {
+    front_default: String,
+    front_shiny: String,
+  },
   cries: {
     latest: String,
     legacy: String,

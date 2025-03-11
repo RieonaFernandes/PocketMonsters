@@ -1,0 +1,25 @@
+const POKEMON_TYPES = [
+  "bug",
+  "electric",
+  "fairy",
+  "fighting",
+  "fire",
+  "flying",
+  "ghost",
+  "grass",
+  "ground",
+  "ice",
+  "normal",
+  "poison",
+  "psychic",
+  "rock",
+  "steel",
+  "water",
+  "dragon",
+  "dark",
+  "stellar",
+  "unknown",
+  "shadow",
+];
+
+module.exports = { POKEMON_TYPES };
