@@ -1,4 +1,5 @@
 const Pokemon = require("../models/PokedexSchema");
+const { SERVER_ERROR } = require("../config/errors");
 
 async function fetchPokemonData(callback) {
   try {
@@ -93,7 +94,12 @@ async function fetchPokedex(query, callback) {
     callback(null, result);
   } catch (err) {
     console.log(err);
-    callback(err, null);
+    callback(
+      SERVER_ERROR(
+        "Error on fetching data. Please recheck input and try again."
+      ),
+      null
+    );
   }
 }
 

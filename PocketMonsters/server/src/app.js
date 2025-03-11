@@ -1,7 +1,7 @@
 "use strict";
 const express = require("express");
 require("dotenv").config();
-const axios = require("axios");
+const handler = require("./middlewares/errorHandler");
 require("./config/mongoConnection"); //mongodb connection
 const bodyParser = require("body-parser");
 
@@ -24,6 +24,9 @@ app.use((req, res, next) => {
 
 // ROUTES
 app.use("/api/v1/", pokedexRoute);
+
+console.log("Type of errorHandler:", typeof handler.errorHandler);
+app.use(handler.errorHandler);
 
 // Start server
 app.listen(process.env.PORT, () => {

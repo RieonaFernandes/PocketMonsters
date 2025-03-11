@@ -22,4 +22,10 @@ const POKEMON_TYPES = [
   "shadow",
 ];
 
-module.exports = { POKEMON_TYPES };
+const ERROR_TYPES = {
+  BAD_REQUEST: 400,
+  NOT_FOUND: 404,
+  SERVER_ERROR: 500,
+};
+
+module.exports = { POKEMON_TYPES, ERROR_TYPES };
