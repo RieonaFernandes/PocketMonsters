@@ -4,12 +4,13 @@ require("dotenv").config();
 const errors = require("./middlewares/errorHandler");
 require("./config/mongoConnection"); //mongodb connection
 const bodyParser = require("body-parser");
+const requestLogger = require("./middlewares/requestLogger");
 
 const pokedexRoute = require("./routes/pokedexRoute");
 
 const app = express();
+app.use(requestLogger); // Log API calls
 
-let env = process.env.ENV || "dev";
 // configure app to use bodyParser()
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

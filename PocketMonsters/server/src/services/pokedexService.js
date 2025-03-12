@@ -3,7 +3,7 @@ const cardController = require("../controllers/pokemonCardController");
 const async = require("async");
 
 async function getPokedex(req, res) {
-  pokedexController.fetchPokedex(req.query, (err, data) => {
+  pokedexController.fetchPokedex(req.body, (err, data) => {
     if (err) {
       return res.status(err?.statusCode || 500).json(err);
     }

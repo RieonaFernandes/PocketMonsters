@@ -21,15 +21,13 @@ async function fetchPokedex(query, callback) {
 
     if (type) filter.type = { $all: type.split(",") };
     if (weakness) filter.weaknesses = { $all: weakness.split(",") };
-    if (minHeight) filter.height = { $gte: parseInt(minHeight) };
-    if (maxHeight)
-      filter.height = { ...filter.height, $lte: parseInt(maxHeight) };
-    if (minWeight) filter.weight = { $gte: parseInt(minWeight) };
-    if (maxWeight)
-      filter.weight = { ...filter.weight, $lte: parseInt(maxWeight) };
+    if (minHeight) filter.height = { $gte: minHeight };
+    if (maxHeight) filter.height = { ...filter.height, $lte: maxHeight };
+    if (minWeight) filter.weight = { $gte: minWeight };
+    if (maxWeight) filter.weight = { ...filter.weight, $lte: maxWeight };
     if (search)
-      Number.isInteger(parseInt(search))
-        ? (filter.uid = parseInt(search))
+      Number.isInteger(search)
+        ? (filter.uid = search)
         : (filter.name = { $regex: new RegExp(search, "i") });
 
     let skip = (page - 1) * limit;
@@ -52,9 +50,9 @@ async function fetchPokedex(query, callback) {
           },
         },
       },
-      { $sort: { [sortBy]: parseInt(sortOrder) } }, // Sort dynamically
+      { $sort: { [sortBy]: sortOrder } }, // Sort dynamically
       { $skip: skip },
-      { $limit: parseInt(limit) }, // Limit results
+      { $limit: limit }, // Limit results
     ]);
 
     if (data.length <= 0) {
