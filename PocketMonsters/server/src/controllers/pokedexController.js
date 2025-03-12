@@ -1,26 +1,5 @@
 const Pokemon = require("../models/PokedexSchema");
-const { SERVER_ERROR } = require("../config/errors");
-
-async function fetchPokemonData(callback) {
-  try {
-    let query = { uid: "1" };
-    const data = await Pokemon.find(query, "name weight height uid");
-    callback(null, data);
-  } catch (error) {
-    callback(error, null);
-  }
-}
-
-async function getPokemonById(req, callback) {
-  try {
-    let query = { uid: req.id };
-    const data = await Pokemon.find(query, "name weight height uid");
-
-    callback(null, data);
-  } catch (error) {
-    callback(error, null);
-  }
-}
+const { SERVER_ERROR, BAD_REQUEST } = require("../config/errors");
 
 async function fetchPokedex(query, callback) {
   try {
@@ -78,6 +57,13 @@ async function fetchPokedex(query, callback) {
       { $limit: parseInt(limit) }, // Limit results
     ]);
 
+    if (data.length <= 0) {
+      return callback(
+        BAD_REQUEST("No pokemon found with the specified attributes."),
+        null
+      );
+    }
+
     const count = await Pokemon.countDocuments(filter);
 
     let result = {
@@ -91,10 +77,9 @@ async function fetchPokedex(query, callback) {
       },
     };
 
-    callback(null, result);
+    return callback(null, result);
   } catch (err) {
-    console.log(err);
-    callback(
+    return callback(
       SERVER_ERROR(
         "Error on fetching data. Please recheck input and try again."
       ),
@@ -103,4 +88,53 @@ async function fetchPokedex(query, callback) {
   }
 }
 
-module.exports = { fetchPokemonData, getPokemonById, fetchPokedex };
+async function fetchDetails(req, callback) {
+  try {
+    const data = await Pokemon.aggregate([
+      { $match: { uid: parseInt(req.id) } }, // Apply filters
+      {
+        $project: {
+          name: 1,
+          height: 1,
+          uid: 1,
+          weight: 1,
+          image: "$images.front_default",
+          gif: "$sprites.other.showdown.front_default",
+          type: 1,
+          weaknesses: 1,
+          stats: 1,
+          abilities: {
+            $map: {
+              input: "$abilities",
+              as: "ability",
+              in: "$$ability.ability.name",
+            },
+          },
+          moves: {
+            $map: {
+              input: "$moves",
+              as: "moves",
+              in: "$$moves.move.name",
+            },
+          },
+        },
+      },
+    ]);
+    if (data.length <= 0) {
+      return callback(BAD_REQUEST("No pokemon found."), null);
+    }
+    return callback(null, data);
+  } catch (error) {
+    return callback(
+      SERVER_ERROR(
+        "Error on fetching data. Please recheck input and try again."
+      ),
+      null
+    );
+  }
+}
+
+module.exports = {
+  fetchPokedex,
+  fetchDetails,
+};

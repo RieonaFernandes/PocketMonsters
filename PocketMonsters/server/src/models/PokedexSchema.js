@@ -1,279 +1,264 @@
 const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
-const PokedexSchema = new mongoose.Schema({
-  name: String,
-  height: Number,
-  uid: Number,
-  weight: Number,
-  base_experience: Number,
-  is_default: Boolean,
-  order: Number,
-  abilities: [
+// Reusable Schema Definitions
+const NamedResourceSchema = new Schema({
+  name: { type: String, required: true },
+  url: { type: String, required: true },
+});
+
+const AbilitySchema = new Schema({
+  ability: NamedResourceSchema,
+  is_hidden: { type: Boolean, required: true },
+  slot: { type: Number, required: true },
+});
+
+const GameIndexSchema = new Schema({
+  game_index: { type: Number, required: true },
+  version: NamedResourceSchema,
+});
+
+const MoveSchema = new Schema({
+  move: NamedResourceSchema,
+  version_group_details: [
     {
-      ability: {
-        name: String,
-        url: String,
-      },
-      is_hidden: Boolean,
-      slot: Number,
+      level_learned_at: { type: Number, required: true },
+      move_learn_method: NamedResourceSchema,
+      version_group: NamedResourceSchema,
     },
   ],
-  forms: [
-    {
-      name: String,
-      url: String,
+});
+
+const StatSchema = new Schema({
+  base_stat: { type: Number, required: true },
+  effort: { type: Number, required: true },
+  stat: NamedResourceSchema,
+});
+
+const TypeSchema = new Schema({
+  slot: { type: Number },
+  type: NamedResourceSchema,
+});
+
+const ImageSchema = new Schema({
+  front_default: { type: String, required: true },
+  front_shiny: { type: String },
+});
+
+const SpriteSchema = new Schema({
+  back_default: { type: String },
+  back_female: { type: String },
+  back_shiny: { type: String },
+  back_shiny_female: { type: String },
+  front_default: { type: String },
+  front_female: { type: String },
+  front_shiny: { type: String },
+  front_shiny_female: { type: String },
+  other: {
+    dream_world: {
+      front_default: { type: String },
+      front_female: { type: String },
     },
-  ],
-  game_indices: [
-    {
-      game_index: Number,
-      version: {
-        name: String,
-        url: String,
-      },
+    home: {
+      front_default: { type: String },
+      front_female: { type: String },
+      front_shiny: { type: String },
+      front_shiny_female: { type: String },
     },
-  ],
-  moves: [
-    {
-      move: {
-        name: String,
-        url: String,
-      },
-      version_group_details: [
-        {
-          level_learned_at: Number,
-          move_learn_method: {
-            name: String,
-            url: String,
-          },
-          version_group: {
-            name: String,
-            url: String,
-          },
-        },
-      ],
+    official_artwork: {
+      front_default: { type: String },
+      front_shiny: { type: String },
     },
-  ],
-  species: {
-    name: String,
-    url: String,
+    showdown: {
+      back_default: { type: String },
+      back_female: { type: String },
+      back_shiny: { type: String },
+      back_shiny_female: { type: String },
+      front_default: { type: String },
+      front_female: { type: String },
+      front_shiny: { type: String },
+      front_shiny_female: { type: String },
+    },
   },
-  sprites: {
-    back_default: String,
-    back_female: String,
-    back_shiny: String,
-    back_shiny_female: String,
-    front_default: String,
-    front_female: String,
-    front_shiny: String,
-    front_shiny_female: String,
-    other: {
-      dream_world: {
-        front_default: String,
-        front_female: String,
+  versions: {
+    "generation-i": {
+      "red-blue": {
+        back_default: { type: String },
+        back_gray: { type: String },
+        back_transparent: { type: String },
+        front_default: { type: String },
+        front_gray: { type: String },
+        front_transparent: { type: String },
       },
-      home: {
-        front_default: String,
-        front_female: String,
-        front_shiny: String,
-        front_shiny_female: String,
-      },
-      official_artwork: {
-        front_default: String,
-        front_shiny: String,
-      },
-      showdown: {
-        back_default: String,
-        back_female: String,
-        back_shiny: String,
-        back_shiny_female: String,
-        front_default: String,
-        front_female: String,
-        front_shiny: String,
-        front_shiny_female: String,
+      yellow: {
+        back_default: { type: String },
+        back_gray: { type: String },
+        back_transparent: { type: String },
+        front_default: { type: String },
+        front_gray: { type: String },
+        front_transparent: { type: String },
       },
     },
-    versions: {
-      "generation-i": {
-        "red-blue": {
-          back_default: String,
-          back_gray: String,
-          back_transparent: String,
-          front_default: String,
-          front_gray: String,
-          front_transparent: String,
-        },
-        yellow: {
-          back_default: String,
-          back_gray: String,
-          back_transparent: String,
-          front_default: String,
-          front_gray: String,
-          front_transparent: String,
-        },
+    "generation-ii": {
+      crystal: {
+        back_default: { type: String },
+        back_shiny: { type: String },
+        back_shiny_transparent: { type: String },
+        back_transparent: { type: String },
+        front_default: { type: String },
+        front_shiny: { type: String },
+        front_shiny_transparent: { type: String },
+        front_transparent: { type: String },
       },
-      "generation-ii": {
-        crystal: {
-          back_default: String,
-          back_shiny: String,
-          back_shiny_transparent: String,
-          back_transparent: String,
-          front_default: String,
-          front_shiny: String,
-          front_shiny_transparent: String,
-          front_transparent: String,
-        },
-        gold: {
-          back_default: String,
-          back_shiny: String,
-          front_default: String,
-          front_shiny: String,
-          front_transparent: String,
-        },
-        silver: {
-          back_default: String,
-          back_shiny: String,
-          front_default: String,
-          front_shiny: String,
-          front_transparent: String,
-        },
+      gold: {
+        back_default: { type: String },
+        back_shiny: { type: String },
+        front_default: { type: String },
+        front_shiny: { type: String },
+        front_transparent: { type: String },
       },
-      "generation-iii": {
-        emerald: {
-          front_default: String,
-          front_shiny: String,
-        },
-        "firered-leafgreen": {
-          back_default: String,
-          back_shiny: String,
-          front_default: String,
-          front_shiny: String,
-        },
-        "ruby-sapphire": {
-          back_default: String,
-          back_shiny: String,
-          front_default: String,
-          front_shiny: String,
-        },
+      silver: {
+        back_default: { type: String },
+        back_shiny: { type: String },
+        front_default: { type: String },
+        front_shiny: { type: String },
+        front_transparent: { type: String },
       },
-      "generation-iv": {
-        "diamond-pearl": {
-          back_default: String,
-          back_female: String,
-          back_shiny: String,
-          back_shiny_female: String,
-          front_default: String,
-          front_female: String,
-          front_shiny: String,
-          front_shiny_female: String,
-        },
-        "heartgold-soulsilver": {
-          back_default: String,
-          back_female: String,
-          back_shiny: String,
-          back_shiny_female: String,
-          front_default: String,
-          front_female: String,
-          front_shiny: String,
-          front_shiny_female: String,
-        },
-        platinum: {
-          back_default: String,
-          back_female: String,
-          back_shiny: String,
-          back_shiny_female: String,
-          front_default: String,
-          front_female: String,
-          front_shiny: String,
-          front_shiny_female: String,
-        },
+    },
+    "generation-iii": {
+      emerald: {
+        front_default: { type: String },
+        front_shiny: { type: String },
       },
-      "generation-v": {
-        "black-white": {
-          animated: {
-            back_default: String,
-            back_female: String,
-            back_shiny: String,
-            back_shiny_female: String,
-            front_default: String,
-            front_female: String,
-            front_shiny: String,
-            front_shiny_female: String,
-          },
-          back_default: String,
-          back_female: String,
-          back_shiny: String,
-          back_shiny_female: String,
-          front_default: String,
-          front_female: String,
-          front_shiny: String,
-          front_shiny_female: String,
-        },
+      "firered-leafgreen": {
+        back_default: { type: String },
+        back_shiny: { type: String },
+        front_default: { type: String },
+        front_shiny: { type: String },
       },
-      "generation-vi": {
-        "omegaruby-alphasapphire": {
-          front_default: String,
-          front_female: String,
-          front_shiny: String,
-          front_shiny_female: String,
-        },
-        "x-y": {
-          front_default: String,
-          front_female: String,
-          front_shiny: String,
-          front_shiny_female: String,
-        },
+      "ruby-sapphire": {
+        back_default: { type: String },
+        back_shiny: { type: String },
+        front_default: { type: String },
+        front_shiny: { type: String },
       },
-      "generation-vii": {
-        icons: {
-          front_default: String,
-          front_female: String,
-        },
-        "ultra-sun-ultra-moon": {
-          front_default: String,
-          front_female: String,
-          front_shiny: String,
-          front_shiny_female: String,
-        },
+    },
+    "generation-iv": {
+      "diamond-pearl": {
+        back_default: { type: String },
+        back_female: { type: String },
+        back_shiny: { type: String },
+        back_shiny_female: { type: String },
+        front_default: { type: String },
+        front_female: { type: String },
+        front_shiny: { type: String },
+        front_shiny_female: { type: String },
       },
-      "generation-viii": {
-        icons: {
-          front_default: String,
-          front_female: String,
+      "heartgold-soulsilver": {
+        back_default: { type: String },
+        back_female: { type: String },
+        back_shiny: { type: String },
+        back_shiny_female: { type: String },
+        front_default: { type: String },
+        front_female: { type: String },
+        front_shiny: { type: String },
+        front_shiny_female: { type: String },
+      },
+      platinum: {
+        back_default: { type: String },
+        back_female: { type: String },
+        back_shiny: { type: String },
+        back_shiny_female: { type: String },
+        front_default: { type: String },
+        front_female: { type: String },
+        front_shiny: { type: String },
+        front_shiny_female: { type: String },
+      },
+    },
+    "generation-v": {
+      "black-white": {
+        animated: {
+          back_default: { type: String },
+          back_female: { type: String },
+          back_shiny: { type: String },
+          back_shiny_female: { type: String },
+          front_default: { type: String },
+          front_female: { type: String },
+          front_shiny: { type: String },
+          front_shiny_female: { type: String },
         },
+        back_default: { type: String },
+        back_female: { type: String },
+        back_shiny: { type: String },
+        back_shiny_female: { type: String },
+        front_default: { type: String },
+        front_female: { type: String },
+        front_shiny: { type: String },
+        front_shiny_female: { type: String },
+      },
+    },
+    "generation-vi": {
+      "omegaruby-alphasapphire": {
+        front_default: { type: String },
+        front_female: { type: String },
+        front_shiny: { type: String },
+        front_shiny_female: { type: String },
+      },
+      "x-y": {
+        front_default: { type: String },
+        front_female: { type: String },
+        front_shiny: { type: String },
+        front_shiny_female: { type: String },
+      },
+    },
+    "generation-vii": {
+      icons: {
+        front_default: { type: String },
+        front_female: { type: String },
+      },
+      "ultra-sun-ultra-moon": {
+        front_default: { type: String },
+        front_female: { type: String },
+        front_shiny: { type: String },
+        front_shiny_female: { type: String },
+      },
+    },
+    "generation-viii": {
+      icons: {
+        front_default: { type: String },
+        front_female: { type: String },
       },
     },
   },
-  stats: [
-    {
-      base_stat: Number,
-      effort: Number,
-      stat: {
-        name: String,
-        url: String,
-      },
-    },
-  ],
-  types: [
-    {
-      slot: Number,
-      type: {
-        name: String,
-        url: String,
-      },
-    },
-  ],
-  type: Array,
-  weaknesses: Array,
-  images: {
-    front_default: String,
-    front_shiny: String,
-  },
-  cries: {
-    latest: String,
-    legacy: String,
-  },
-  location_area_encounters: String,
+});
+
+const CrySchema = new Schema({
+  latest: { type: String },
+  legacy: { type: String },
+});
+
+// Main Pokémon Schema
+const PokedexSchema = new Schema({
+  uid: { type: Number, required: true, unique: true },
+  name: { type: String, required: true },
+  height: { type: Number, required: true },
+  weight: { type: Number, required: true },
+  base_experience: { type: Number, required: true },
+  is_default: { type: Boolean, required: true },
+  order: { type: Number, required: true },
+  abilities: [AbilitySchema],
+  forms: [NamedResourceSchema],
+  game_indices: [GameIndexSchema],
+  moves: [MoveSchema],
+  species: NamedResourceSchema,
+  sprites: SpriteSchema,
+  stats: [StatSchema],
+  types: [TypeSchema],
+  weaknesses: [{ type: String }],
+  type: [{ type: String }],
+  images: ImageSchema,
+  cries: CrySchema,
+  location_area_encounters: { type: String, required: true },
 });
 
 module.exports = mongoose.model("Pokemon", PokedexSchema);

@@ -1,4 +1,4 @@
-const ERROR_TYPES = require("../utils/constants");
+const { ERROR_TYPES } = require("../utils/constants");
 
 class AppError extends Error {
   constructor(type, message, additionalData = {}) {

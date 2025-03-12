@@ -62,4 +62,11 @@ async function pokedexValidator(req, res, next) {
   next();
 }
 
-module.exports = { pokedexValidator };
+async function cardValidator(req, res, next) {
+  const regex = /^[0-9]+$/;
+  if (!regex.test(req.params.id))
+    return next(BAD_REQUEST("Validation error: invalid input"));
+  next();
+}
+
+module.exports = { pokedexValidator, cardValidator };
