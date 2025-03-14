@@ -3,15 +3,24 @@ require("dotenv").config();
 require("./config/mongoConnection");
 const bodyParser = require("body-parser");
 const requestLogger = require("./middlewares/requestLogger");
+const rateLimit = require("express-rate-limit");
 
 const errors = require("./middlewares/errorHandler");
 const pokedexRoute = require("./routes/pokedexRoute");
 const swaggerDocs = require("./config/swaggerConfig");
 
 const app = express();
+const limiter = rateLimit({
+  windowMs: 5 * 60 * 1000, // 5 minutes
+  max: 500, // limit each IP to 500 requests per windowMs
+  message: "Too many requests from this IP, please try again later.", // error message
+  standardHeaders: true, // Send RateLimit headers
+  legacyHeaders: false, // Disable X-RateLimit headers
+});
+
 app.disable("x-powered-by"); // less hackers know about our stack
-// Log API calls
-app.use(requestLogger);
+app.use(requestLogger); // log API calls
+app.use("/api/v1/", limiter);
 
 const port = process.env.PORT || 8080;
 
