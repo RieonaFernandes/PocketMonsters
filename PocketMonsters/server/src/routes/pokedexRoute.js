@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const pokedexService = require("../services/pokedexService");
 const validator = require("../middlewares/validator");
+const { cacheMiddleware } = require("../middlewares/cache");
 
 // filler API
 /** GET Methods */
@@ -94,7 +95,7 @@ const validator = require("../middlewares/validator");
  *       500:
  *         description: Error on fetching data. Please try again.
  */
-router.get("/pokedex/fillers", pokedexService.getFiller);
+router.get("/pokedex/fillers", cacheMiddleware, pokedexService.getFiller);
 
 // pokedex API
 /**
@@ -217,7 +218,12 @@ router.get("/pokedex/fillers", pokedexService.getFiller);
  *       500:
  *         description: Error on fetching data. Please re-check input and try again.
  */
-router.get("/pokedex", validator.pokedexValidator, pokedexService.getPokedex);
+router.get(
+  "/pokedex",
+  validator.pokedexValidator,
+  cacheMiddleware,
+  pokedexService.getPokedex
+);
 
 // pokemon card API
 /**
@@ -379,6 +385,11 @@ router.get("/pokedex", validator.pokedexValidator, pokedexService.getPokedex);
  *       500:
  *         description: Error on fetching data. Please re-check input and try again.
  */
-router.get("/pokedex/:id", validator.cardValidator, pokedexService.getCard);
+router.get(
+  "/pokedex/:id",
+  validator.cardValidator,
+  cacheMiddleware,
+  pokedexService.getCard
+);
 
 module.exports = router;
