@@ -1,6 +1,7 @@
 const { POKEMON_TYPES } = require("../utils/constants");
 const { BAD_REQUEST } = require("../config/errors");
 
+// validate input provided first
 async function pokedexValidator(req, res, next) {
   if (req.body?.limit)
     if (req.body.limit > 25)

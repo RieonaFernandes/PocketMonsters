@@ -12,6 +12,7 @@ async function getPokedex(req, res) {
 }
 
 async function getCard(req, res) {
+  // added async parallel for parallel execution (comparatively faster)
   async.parallel(
     {
       pokemonData: function (parallelCallback) {

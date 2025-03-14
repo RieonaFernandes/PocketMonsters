@@ -3,7 +3,7 @@ const errorHandler = (err, req, res, next) => {
   res.status(statusCode).json({
     error: {
       code: statusCode,
-      details: err.details || { message: "Something went wrong" },
+      details: err.details || { message: "Something went wrong" }, // if err.details does not have data
     },
   });
 };
