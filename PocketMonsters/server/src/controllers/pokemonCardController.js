@@ -1,5 +1,5 @@
 const Card = require("../models/PokemonCardSchema");
-const { SERVER_ERROR, BAD_REQUEST } = require("../config/errors");
+const { SERVER_ERROR, NOT_FOUND } = require("../config/errors");
 
 async function fetchCard(req, callback) {
   try {
@@ -7,7 +7,7 @@ async function fetchCard(req, callback) {
       { $match: { uid: parseInt(req.id) } }, // Apply filters
       {
         $project: {
-          name: 1, // Include the name in the result, you can add other fields if needed
+          name: 1, // project only the fields that you need
           names: 1,
           evolution_chain: 1,
           color: 1,
@@ -35,25 +35,38 @@ async function fetchCard(req, callback) {
         $group: {
           _id: "$_id", // Group by the Pokémon _id
           name: { $first: "$name" }, // Keep the name (or other fields) for the result
+          names: { $first: "$names" },
+          evolution_chain: { $first: "$evolution_chain" },
+          color: { $first: "$color" },
+          generation: { $first: "$generation" },
+          habitat: { $first: "$habitat" },
           flavor_text_entries: { $addToSet: "$flavor_text_entries" }, // Use addToSet to get unique values
         },
       },
       {
         $project: {
-          name: 1, // Include the name in the final result
-          flavor_text_entries: 1, // Include the unique flavor_text_entries
+          _id: 0, // project fields that you need in the final result
+          name: 1,
+          names: 1,
+          evolution_chain: 1,
+          color: 1,
+          generation: 1,
+          habitat: 1,
+          flavor_text_entries: 1,
         },
       },
     ]);
+
+    // If response of the query is an empty array, no match was found for unique id.
     if (cardData.length <= 0) {
-      return callback(BAD_REQUEST("No pokemon found."), null);
+      return callback(NOT_FOUND("No pokemon found."), null);
     }
 
     return callback(null, cardData);
   } catch (error) {
     return callback(
       SERVER_ERROR(
-        "Error on fetching data. Please recheck input and try again."
+        "Error on fetching data. Please re-check input and try again."
       ),
       null
     );
