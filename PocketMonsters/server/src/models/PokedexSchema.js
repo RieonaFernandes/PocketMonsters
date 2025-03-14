@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const { COLLECTIONS } = require("../utils/constants");
 
 // Reusable Schema Definitions
 const NamedResourceSchema = new Schema({
@@ -261,4 +262,4 @@ const PokedexSchema = new Schema({
   location_area_encounters: { type: String, required: true },
 });
 
-module.exports = mongoose.model("Pokemon", PokedexSchema);
+module.exports = mongoose.model(COLLECTIONS.Pokemon, PokedexSchema);

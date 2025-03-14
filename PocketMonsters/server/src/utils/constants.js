@@ -31,4 +31,16 @@ const ERROR_TYPES = {
   CONFLICT: 409,
 };
 
-module.exports = { POKEMON_TYPES, ERROR_TYPES };
+let COLLECTIONS = {};
+if (process.env.ENV === "local" || process.env.ENV === "dev") {
+  COLLECTIONS = {
+    Types: "types_fillers",
+    Weight: "weight_fillers",
+    Height: "height_fillers",
+    Language: "language_fillers",
+    Card: "cards",
+    Pokemon: "pokemons",
+  };
+}
+
+module.exports = { POKEMON_TYPES, ERROR_TYPES, COLLECTIONS };

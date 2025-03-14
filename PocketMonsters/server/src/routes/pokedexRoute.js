@@ -3,8 +3,100 @@ const router = express.Router();
 const pokedexService = require("../services/pokedexService");
 const validator = require("../middlewares/validator");
 
-// pokedex API
+// filler API
 /** GET Methods */
+/**
+ * @openapi
+ * /pokedex/fillers:
+ *   get:
+ *     summary: Get fillers data including height, weight, type, and language.
+ *     description: Retrieve various filler attributes such as height, weight, type, and language from the Pokedex.
+ *     tags:
+ *       - Pokedex
+ *     responses:
+ *       200:
+ *         description: Successfully fetched fillers data.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 height:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       name:
+ *                         type: string
+ *                         example: "small"
+ *                       minWeight:
+ *                         type: integer
+ *                         example: 0
+ *                       maxWeight:
+ *                         type: integer
+ *                         example: 500
+ *                       id:
+ *                         type: integer
+ *                         example: 1
+ *                 weight:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       name:
+ *                         type: string
+ *                         example: "small"
+ *                       minHeight:
+ *                         type: integer
+ *                         example: 0
+ *                       maxHeight:
+ *                         type: integer
+ *                         example: 10
+ *                       id:
+ *                         type: integer
+ *                         example: 1
+ *                 type:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       name:
+ *                         type: string
+ *                         example: "normal"
+ *                       id:
+ *                         type: integer
+ *                         example: 1
+ *                       url:
+ *                         type: string
+ *                         example: "https://pokeapi.co/api/v2/type/1/"
+ *                 language:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: integer
+ *                         example: 1
+ *                       iso3166:
+ *                         type: string
+ *                         example: "jp"
+ *                       iso639:
+ *                         type: string
+ *                         example: "ja"
+ *                       name:
+ *                         type: string
+ *                         example: "ja-Hrkt"
+ *                       en-name:
+ *                         type: string
+ *                         example: "Japanese"
+ *       404:
+ *         description: No filler found.
+ *       500:
+ *         description: Error on fetching data. Please try again.
+ */
+router.get("/pokedex/fillers", pokedexService.getFiller);
+
+// pokedex API
 /**
  * @openapi
  * '/api/v1/pokedex':
@@ -123,7 +215,7 @@ const validator = require("../middlewares/validator");
  *       404:
  *         description: No pokemon found with the specified attributes.
  *       500:
- *         description: Error on fetching data. Please re-check input and try again..
+ *         description: Error on fetching data. Please re-check input and try again.
  */
 router.get("/pokedex", validator.pokedexValidator, pokedexService.getPokedex);
 
@@ -285,7 +377,7 @@ router.get("/pokedex", validator.pokedexValidator, pokedexService.getPokedex);
  *       404:
  *         description: No pokemon found with the specified attributes.
  *       500:
- *         description: Error on fetching data. Please re-check input and try again..
+ *         description: Error on fetching data. Please re-check input and try again.
  */
 router.get("/pokedex/:id", validator.cardValidator, pokedexService.getCard);
 
