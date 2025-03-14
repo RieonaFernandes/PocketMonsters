@@ -1,21 +1,44 @@
 const pokedexController = require("../controllers/pokedexController");
+const cardController = require("../controllers/pokemonCardController");
+const async = require("async");
 
-async function getPokemonData(req, res) {
-  pokedexController.fetchPokemonData((err, data) => {
+async function getPokedex(req, res) {
+  pokedexController.fetchPokedex(req.body, (err, data) => {
     if (err) {
-      return res.status(500).json({ error: "Failed to fetch data" });
+      return res.status(err?.statusCode || 500).json(err);
     }
-    res.json(data);
+    return res.json(data);
   });
 }
 
-async function getPokemonById(req, res) {
-  pokedexController.getPokemonById(req.body, (err, data) => {
-    if (err) {
-      return res.status(500).json({ error: "Failed to fetch data at service" });
+async function getCard(req, res) {
+  async.parallel(
+    {
+      pokemonData: function (parallelCallback) {
+        pokedexController.fetchDetails(req.params, (err, data) => {
+          if (err) {
+            return parallelCallback(err, null);
+          }
+          return parallelCallback(null, data);
+        });
+      },
+      cardData: function (parallelCallback) {
+        cardController.fetchCard(req.params, (err, data) => {
+          if (err) {
+            return parallelCallback(err, null);
+          }
+          return parallelCallback(null, data);
+        });
+      },
+    },
+    function (err, results) {
+      if (err) {
+        console.log(err);
+        return res.status(err?.statusCode || 500).json(err);
+      }
+      return res.json(results);
     }
-    res.json(data);
-  });
+  );
 }
 
-module.exports = { getPokemonData, getPokemonById };
+module.exports = { getPokedex, getCard };
