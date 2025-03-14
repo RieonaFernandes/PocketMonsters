@@ -1,7 +1,6 @@
-"use strict";
 const express = require("express");
 require("dotenv").config();
-const connect = require("./config/mongoConnection");
+require("./config/mongoConnection");
 const bodyParser = require("body-parser");
 const requestLogger = require("./middlewares/requestLogger");
 

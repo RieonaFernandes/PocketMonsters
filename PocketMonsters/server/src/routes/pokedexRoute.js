@@ -7,7 +7,7 @@ const validator = require("../middlewares/validator");
 /** GET Methods */
 /**
  * @openapi
- * /pokedex/fillers:
+ * /api/v1/pokedex/fillers:
  *   get:
  *     summary: Get fillers data including height, weight, type, and language.
  *     description: Retrieve various filler attributes such as height, weight, type, and language from the Pokedex.
