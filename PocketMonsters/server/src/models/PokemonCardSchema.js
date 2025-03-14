@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const { COLLECTIONS } = require("../utils/constants");
 
 // Common Object Schema
 const ObjectSchema = new Schema({
@@ -69,4 +70,4 @@ const PokemonCardSchema = new Schema({
 });
 
 // Create and export the model
-module.exports = mongoose.model("Card", PokemonCardSchema);
+module.exports = mongoose.model(COLLECTIONS.Card, PokemonCardSchema);

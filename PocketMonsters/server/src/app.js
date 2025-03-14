@@ -37,23 +37,5 @@ app.use(errors.errorHandler);
 app.listen(port, () => {
   console.log(`Server is running on ${process.env.HOST}:${port}`);
   swaggerDocs(app, port);
-  // console.log(
-  //   `OpenAPI Docs available at ${process.env.HOST}:${port}/api-docs`
-  // );
+  console.log(`OpenAPI Docs available at ${process.env.HOST}:${port}/docs`);
 });
-
-// connect
-//   .mongoose()
-//   .then(() => {
-//     try {
-//       app.listen(port, () => {
-//         console.log(`Server is running on ${process.env.HOST}:${port}`);
-//       });
-//       swaggerDocs(app, port);
-//     } catch (error) {
-//       console.log("Cannot connect to the server");
-//     }
-//   })
-//   .catch((error) => {
-//     console.log("Invalid database connection...!", error);
-//   });
