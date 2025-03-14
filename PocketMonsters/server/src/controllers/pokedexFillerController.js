@@ -6,7 +6,7 @@ const { SERVER_ERROR, NOT_FOUND } = require("../config/errors");
 
 async function fetchFillers(req, callback) {
   try {
-    const data = await (req == "Type"
+    const data = await (req === "Type"
       ? Type.find({}, { _id: 0 })
       : req === "Weight"
       ? Weight.find({}, { _id: 0 })

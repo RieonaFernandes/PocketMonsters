@@ -144,4 +144,7 @@ dist
 # Notes written while building the app
 notes.txt
 
+#eslint configuration
+.eslintrc.json
+
 # End of https://www.toptal.com/developers/gitignore/api/node

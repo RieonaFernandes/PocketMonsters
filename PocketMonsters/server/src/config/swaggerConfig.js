@@ -1,7 +1,6 @@
 const swaggerJsdoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
 require("dotenv").config();
-var _ = require("lodash");
 
 const root = require("path").normalize(__dirname + "/..");
 
