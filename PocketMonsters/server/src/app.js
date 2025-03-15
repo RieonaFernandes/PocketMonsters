@@ -37,9 +37,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Add headers in order to perform all operation on API (CORS)
 app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Header", "*");
+  // res.header("Access-Control-Allow-Origin", "*");
+  // res.header("Access-Control-Allow-Header", "*");
 
+  // Encrypting the traffic
+  if (req.headers["x-forwarded-proto"] !== "https") {
+    return res.redirect(`https://${req.headers.host}${req.url}`);
+  }
   next();
 });
 
