@@ -4,6 +4,7 @@ require("./config/mongoConnection");
 const bodyParser = require("body-parser");
 const requestLogger = require("./middlewares/requestLogger");
 const rateLimit = require("express-rate-limit");
+const cors = require("cors");
 
 const errors = require("./middlewares/errorHandler");
 const pokedexRoute = require("./routes/pokedexRoute");
@@ -17,7 +18,13 @@ const limiter = rateLimit({
   standardHeaders: true, // Send RateLimit headers
   legacyHeaders: false, // Disable X-RateLimit headers
 });
+const corsOptions = {
+  origin: process.env.URLs, // restrict access
+  methods: ["GET"], // allow only GET requests
+  allowedHeaders: ["Content-Type"],
+};
 
+app.use(cors(corsOptions));
 app.disable("x-powered-by"); // less hackers know about our stack
 app.use(requestLogger); // log API calls
 app.use("/api/v1/", limiter);
