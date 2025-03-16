@@ -44,6 +44,12 @@ app.use((req, res, next) => {
   if (req.headers["x-forwarded-proto"] !== "https") {
     return res.redirect(`https://${req.headers.host}${req.url}`);
   }
+
+  //set CSP to restricts the loading of resources to the same origin ('self'), not allows embedding the page in a frame, only allows connections to the same origin, and prevents the loading of plugins or embedded objects.
+  res.setHeader(
+    "Content-Security-Policy",
+    `default-src 'self'; "frame-ancestors 'none'; connect-src 'self'; object-src 'none';`
+  );
   next();
 });
 
