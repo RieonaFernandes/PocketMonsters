@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 const requestLogger = require("./middlewares/requestLogger");
 const rateLimit = require("express-rate-limit");
 const cors = require("cors");
+const xssClean = require("xss-clean");
 
 const errors = require("./middlewares/errorHandler");
 const pokedexRoute = require("./routes/pokedexRoute");
@@ -52,6 +53,14 @@ app.use((req, res, next) => {
   );
   next();
 });
+
+// Can help protect the API against clickjacking attacks by ensuring that the application can't be embedded within an iframe.
+app.use((req, res, next) => {
+  res.setHeader("X-Frame-Options", "DENY");
+  next();
+});
+// In the future when there are API's that consume any user-generated content, this ensures that it is sanitized and escape HTML input.
+app.use(xssClean());
 
 // ROUTES
 app.use("/api/v1/", pokedexRoute);
