@@ -41,13 +41,6 @@ async function fetchPokedex(query, callback) {
           uid: 1,
           weight: 1,
           image: "$images.front_default", // Extract as a string
-          // types: {
-          //   $map: {
-          //     input: "$type",
-          //     as: "t",
-          //     in: "$$t",
-          //   },
-          // },
           type: 1,
           _id: 0,
         },
