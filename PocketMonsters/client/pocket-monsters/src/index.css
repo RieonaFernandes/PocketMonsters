@@ -1,0 +1,26 @@
+@import "tailwindcss";
+
+body {
+  background-color: #f3f4f6;
+  min-height: 100vh;
+}
+:root {
+  --type-grass: #78c850;
+  --type-poison: #a040a0;
+  --type-fire: #f08030;
+  --type-flying: #a890f0;
+  --type-water: #6890f0;
+  --type-bug: #a8b820;
+  --type-dark: #705848;
+  --type-dragon: #7038f8;
+  --type-electric: #f8d030;
+  --type-fairy: #ee99ac;
+  --type-fighting: #c03028;
+  --type-ghost: #705898;
+  --type-ground: #e0c068;
+  --type-ice: #98d8d8;
+  --type-normal: #a8a878;
+  --type-psychic: #f85888;
+  --type-rock: #b8a038;
+  --type-steel: #b8b8d0;
+}
