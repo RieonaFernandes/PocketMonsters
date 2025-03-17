@@ -36,11 +36,6 @@ const StatSchema = new Schema({
   stat: NamedResourceSchema,
 });
 
-const TypeSchema = new Schema({
-  slot: { type: Number },
-  type: NamedResourceSchema,
-});
-
 const ImageSchema = new Schema({
   front_default: { type: String, required: true },
   front_shiny: { type: String },
@@ -254,7 +249,6 @@ const PokedexSchema = new Schema({
   species: NamedResourceSchema,
   sprites: SpriteSchema,
   stats: [StatSchema],
-  types: [TypeSchema],
   weaknesses: [{ type: String }],
   type: [{ type: String }],
   images: ImageSchema,
