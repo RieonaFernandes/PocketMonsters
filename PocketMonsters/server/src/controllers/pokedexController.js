@@ -26,8 +26,8 @@ async function fetchPokedex(query, callback) {
     if (minWeight) filter.weight = { $gte: minWeight }; // filters documents where the minimum weight is greater than or equals to the 'minWeight' parameter.
     if (maxWeight) filter.weight = { ...filter.weight, $lte: maxWeight }; // filters documents where the weight is less than or equals to the 'maxWeight' parameter and also includes any other filter applied on weight.
     if (search)
-      Number.isInteger(search)
-        ? (filter.uid = search)
+      Number.isInteger(parseInt(search))
+        ? (filter.uid = parseInt(search))
         : (filter.name = { $regex: new RegExp(search, "i") }); // search is can be done based on the pokemon id or name. If number, then search by 'uid', else search by name.
 
     let skip = (page - 1) * limit; // the number of documents to skip
@@ -51,12 +51,12 @@ async function fetchPokedex(query, callback) {
     ]);
 
     // If response of the query is an empty array, no match was found for the filter
-    if (data.length <= 0) {
-      return callback(
-        NOT_FOUND("No pokemon found with the specified attributes."),
-        null
-      );
-    }
+    // if (data.length <= 0) {
+    //   return callback(
+    //     NOT_FOUND("No pokemon found with the specified attributes."),
+    //     null
+    //   );
+    // }
 
     // Get total count of the documents for the filter.
     const count = await Pokemon.countDocuments(filter);
