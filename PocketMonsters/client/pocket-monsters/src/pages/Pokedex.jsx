@@ -1,5 +1,9 @@
 import { useState, useEffect, useCallback } from "react";
-import { Link } from "react-router-dom";
+import SearchInput from "../components/SearchInput";
+import PokemonCard from "../components/PokemonCard";
+import LoadMoreButton from "../components/LoadMoreButton";
+import Alert from "../components/Alert";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 export default function Pokedex() {
   const [pokemonList, setPokemonList] = useState([]);
@@ -34,15 +38,13 @@ export default function Pokedex() {
       });
 
       if (!response.ok) {
-        console.log("error====> ", response);
         throw new Error(`Please try again`, response);
       }
 
       const { data, metadata: meta } = await response.json();
       return { data, meta };
     } catch (error) {
-      console.error("Error fetching Pokémon:", error);
-      throw new Error(`Failed to fetch Pokémon: please re-try`);
+      throw new Error(`Failed to fetch Pokémon: please re-try`, error);
     }
   }, []);
 
@@ -84,8 +86,13 @@ export default function Pokedex() {
     }
   };
 
-  if (loading && currentPage === 1)
-    return <div className="text-center mt-8">Loading...</div>;
+  if (loading && currentPage === 1) {
+    return (
+      <div className="text-center mt-8">
+        <LoadingSpinner size={8} />
+      </div>
+    );
+  }
 
   if (error && pokemonList.length === 0) {
     return (
@@ -110,7 +117,7 @@ export default function Pokedex() {
           <p className="text-gray-600 mb-4">{error}</p>
           <button
             onClick={loadData}
-            className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
+            className="mt-4 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
           >
             Try Again
           </button>
@@ -122,80 +129,28 @@ export default function Pokedex() {
   return (
     <div className="container mx-auto px-30 py-4">
       <h1 className="text-4xl font-bold text-center mb-8">Pokédex</h1>
-
-      {/* Add Search Input */}
-      <div className="mb-8 max-w-md mx-auto">
-        <input
-          type="text"
-          placeholder="Search Pokémon by name or number..."
-          value={searchTerm}
-          onChange={handleSearchChange}
-          onKeyDown={handleKeyPress}
-          className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-        <p className="text-sm text-gray-500 mt-1 text-center">
-          Search by name (e.g. "charizard") or number (e.g. "006")
-        </p>
-      </div>
+      <SearchInput
+        value={searchTerm}
+        onChange={handleSearchChange}
+        onKeyPress={handleKeyPress}
+      />
 
       {loading && currentPage === 1 ? (
-        <div className="text-center mt-8">Loading...</div>
+        <div className="text-center mt-8">
+          <LoadingSpinner size={8} />
+        </div>
       ) : error && pokemonList.length === 0 ? (
-        // <p>Failed to fetch Pokémon: please re-try</p>
-        <div className="text-center mt-8 p-4">
-          <div className="inline-block bg-red-100 rounded-lg p-4">
-            <p className="text-red-800">
-              Failed to fetch Pokémon: please re-try
-            </p>
-          </div>
-        </div>
+        <Alert type="error" message="Failed to fetch Pokémon: please re-try" />
       ) : pokemonList.length === 0 ? (
-        <div className="text-center mt-8 p-4">
-          <div className="inline-block bg-yellow-100 rounded-lg p-4">
-            <p className="text-yellow-800">
-              No Pokémon found matching "{searchTerm}"
-            </p>
-          </div>
-        </div>
+        <Alert
+          type="warning"
+          message={`No Pokémon found matching "${searchTerm}"`}
+        />
       ) : (
         <>
           <div className="flex items-center justify-center grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {pokemonList.map((pokemon) => (
-              <Link
-                to={`/pokemon/${pokemon.name}`}
-                key={pokemon.uid}
-                className="bg-white p-4 rounded-lg shadow-lg hover:shadow-xl transition-shadow"
-              >
-                <div className="text-sm text-gray-500 text-right">
-                  #{pokemon.uid.toString().padStart(3, "0")}
-                </div>
-                <img
-                  src={pokemon.image}
-                  alt={pokemon.name}
-                  className="mx-auto w-32 h-32 object-contain"
-                />
-                <h3 className="text-center font-semibold capitalize mt-2">
-                  {pokemon.name}
-                </h3>
-                <div className="flex flex-wrap justify-center gap-2 mt-2">
-                  {pokemon.type.map((type) => (
-                    <span
-                      key={type}
-                      className="px-2 py-1 text-sm rounded-full capitalize"
-                      style={{
-                        backgroundColor: `var(--type-${type})`,
-                        color: "white",
-                      }}
-                    >
-                      {type}
-                    </span>
-                  ))}
-                </div>
-                <div className="mt-2 text-center text-sm text-gray-600">
-                  <p>Height: {pokemon.height / 10}m</p>
-                  <p>Weight: {pokemon.weight / 10}kg</p>
-                </div>
-              </Link>
+              <PokemonCard key={pokemon.uid} pokemon={pokemon} />
             ))}
           </div>
 
@@ -213,40 +168,13 @@ export default function Pokedex() {
 
           {metadata && currentPage < metadata.total_pages && (
             <div className="mt-8 text-center">
-              <button
+              <LoadMoreButton
+                loading={isLoadingMore}
                 onClick={handleLoadMore}
-                disabled={isLoadingMore}
-                className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded
-                      disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-              >
-                {isLoadingMore ? (
-                  <span className="flex items-center justify-center">
-                    <svg
-                      className="animate-spin h-5 w-5 mr-3"
-                      viewBox="0 0 24 24"
-                    >
-                      <circle
-                        className="opacity-25"
-                        cx="12"
-                        cy="12"
-                        r="10"
-                        stroke="currentColor"
-                        strokeWidth="4"
-                        fill="none"
-                      />
-                      <path
-                        className="opacity-75"
-                        fill="currentColor"
-                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                      />
-                    </svg>
-                    Loading...
-                  </span>
-                ) : (
-                  "Load More Pokémon"
-                )}
-              </button>
-              <p className="mt-2 text-sm text-gray-500">
+                disabled={currentPage >= metadata.total_pages}
+              />
+
+              <p className="mt-4 text-sm text-gray-600">
                 Showing {pokemonList.length} of {metadata.total} Pokémon
               </p>
               <p className="text-gray-600">
