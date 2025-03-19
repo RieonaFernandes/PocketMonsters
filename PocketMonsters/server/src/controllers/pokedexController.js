@@ -70,6 +70,7 @@ async function fetchPokedex(query, callback) {
         offset: (parseInt(page) - 1) * limit,
         limit: parseInt(limit),
         docs_in_page: data?.length,
+        total: count,
       },
     };
 

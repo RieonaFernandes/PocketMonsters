@@ -28,7 +28,7 @@ export default [
         "warn",
         { allowConstantExport: true },
       ],
-      indent: ["error", 2],
+      indent: ["warn", 2],
       "no-console": "warn",
       semi: ["error", "always"],
       // quotes: ["error", "double", { avoidEscape: true }],
