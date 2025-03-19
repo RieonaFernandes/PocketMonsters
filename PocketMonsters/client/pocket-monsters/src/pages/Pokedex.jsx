@@ -6,6 +6,7 @@ import Alert from "../components/Alert";
 import LoadingSpinner from "../components/LoadingSpinner";
 import FiltersSection from "../components/FiltersSection";
 import RangeFilter from "../components/RangeFilter";
+import SortSelect from "../components/SortSelect";
 
 export default function Pokedex() {
   const [pokemonList, setPokemonList] = useState([]);
@@ -23,6 +24,10 @@ export default function Pokedex() {
   });
   const [filterOptions, setFilterOptions] = useState(null);
   const [appliedSearchTerm, setAppliedSearchTerm] = useState("");
+  const [sort, setSort] = useState({
+    sortBy: "uid",
+    sortOrder: 1,
+  });
 
   // Fetch filter options on mount
   useEffect(() => {
@@ -60,8 +65,8 @@ export default function Pokedex() {
           body: JSON.stringify({
             page: page,
             limit: 12,
-            sortBy: "uid",
-            sortOrder: 1,
+            sortBy: sort.sortBy,
+            sortOrder: sort.sortOrder,
             search: search,
             type: filters.types.join(","),
             weakness: filters.weaknesses.join(","),
@@ -83,7 +88,7 @@ export default function Pokedex() {
         throw new Error(`Failed to fetch Pokémon. Please try again`);
       }
     },
-    [filters]
+    [sort, filters]
   );
 
   const loadData = useCallback(async () => {
@@ -106,6 +111,10 @@ export default function Pokedex() {
   useEffect(() => {
     loadData();
   }, [currentPage, loadData]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [sort]);
 
   const handleRangeFilter = (filterType) => (selectedOption) => {
     setFilters((prev) => ({
@@ -198,6 +207,17 @@ export default function Pokedex() {
             onChange={handleSearchChange}
             onKeyPress={handleKeyPress}
           />
+
+          <div className="space-y-6">
+            <SortSelect
+              title="Sort By"
+              value={sort}
+              onChange={(value) => {
+                setSort(value);
+                setCurrentPage(1);
+              }}
+            />
+          </div>
 
           <div className="space-y-6">
             <FiltersSection
