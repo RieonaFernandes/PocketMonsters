@@ -4,7 +4,7 @@ import TypeBadge from "./TypeBadge";
 export default function PokemonCard({ pokemon }) {
   return (
     <Link
-      to={`/pokemon/${pokemon.name}`}
+      to={`/pokemon/${pokemon.uid}`}
       // key={pokemon.uid}
       className="bg-white p-4 rounded-lg shadow-lg hover:shadow-xl transition-shadow"
     >

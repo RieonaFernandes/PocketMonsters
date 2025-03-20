@@ -27,3 +27,15 @@ body {
   --type-shadow: #66527a;
   --type-unknown: #527a70;
 }
+
+img {
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  image-rendering: high-quality;
+}
+
+@supports (image-rendering: pixelated) {
+  img {
+    image-rendering: pixelated;
+  }
+}

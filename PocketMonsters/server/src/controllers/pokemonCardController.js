@@ -62,8 +62,13 @@ async function fetchCard(req, callback) {
       return callback(NOT_FOUND("No pokemon found."), null);
     }
 
+    cardData[0].names = cardData[0]?.names?.filter(
+      (nameObj) => nameObj.language.name !== "ja"
+    );
+
     return callback(null, cardData);
   } catch (error) {
+    console.log(error);
     return callback(
       SERVER_ERROR(
         "Error on fetching data. Please re-check input and try again."
