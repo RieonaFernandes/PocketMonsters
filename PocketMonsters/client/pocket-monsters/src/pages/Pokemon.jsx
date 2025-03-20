@@ -102,12 +102,6 @@ export default function Pokemon() {
 
   if (!pokemonData || !cardData) return null;
 
-  // Get first English flavor text
-  const flavorText =
-    cardData.flavor_text_entries.find((text) =>
-      typeof text === "string" ? false : text.language?.name === "en"
-    ) || cardData.flavor_text_entries[0];
-
   return (
     <div className="container mx-auto px-18 py-8">
       {/* Header Section */}
