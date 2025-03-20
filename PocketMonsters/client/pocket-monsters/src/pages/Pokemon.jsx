@@ -13,6 +13,7 @@ export default function Pokemon() {
   const [error, setError] = useState(null);
   const [showGif, setShowGif] = useState(false);
   const [languages, setLanguages] = useState([]);
+  const [currentFlavorIndex, setCurrentFlavorIndex] = useState(0);
 
   useEffect(() => {
     const fetchFilterOptions = async () => {
@@ -57,9 +58,30 @@ export default function Pokemon() {
     fetchPokemonDetails();
   }, [id]);
 
+  useEffect(() => {
+    if (cardData?.flavor_text_entries) {
+      setCurrentFlavorIndex(0);
+    }
+  }, [cardData]);
+
   const getLanguageName = (languageName) => {
     const language = languages.find((lang) => lang.name === languageName);
     return language ? language["en-name"] : null;
+  };
+
+  const handleFlavorTextClick = () => {
+    if (!cardData?.flavor_text_entries) return;
+
+    const entries = cardData.flavor_text_entries;
+    if (entries.length <= 1) return;
+
+    // Get new random index different from current
+    let newIndex;
+    do {
+      newIndex = Math.floor(Math.random() * entries.length);
+    } while (newIndex === currentFlavorIndex);
+
+    setCurrentFlavorIndex(newIndex);
   };
 
   if (loading) {
@@ -118,7 +140,12 @@ export default function Pokemon() {
                       : pokemonData.image
                   }
                   alt={pokemonData.name}
-                  className={pokemonData.gif ? "w-30 h-30" : "w-full h-full" + " object-contain transition-transform duration-300 group-hover:scale-100"}
+                  className={
+                    pokemonData.gif
+                      ? "w-30 h-30"
+                      : "w-full h-full" +
+                        " object-contain transition-transform duration-300 group-hover:scale-100"
+                  }
                 />
               </div>
               {pokemonData.gif && (
@@ -176,7 +203,7 @@ export default function Pokemon() {
                     >
                       <span className="absolute top-1 right-1 text-xs text-gray-400">
                         {typeof nameEntry.language === "object"
-                          ? (getLanguageName(nameEntry.language.name))
+                          ? getLanguageName(nameEntry.language.name)
                           : null}
                       </span>
                       <p className="text-lg font-semibold mt-3">
@@ -189,7 +216,7 @@ export default function Pokemon() {
             )}
 
             {/* Flavor Text */}
-            {flavorText && (
+            {/* {flavorText && (
               <p className="italic text-gray-600 p-6">
                 "
                 {typeof flavorText === "string"
@@ -197,6 +224,21 @@ export default function Pokemon() {
                   : flavorText.flavor_text}
                 "
               </p>
+            )} */}
+
+            {cardData.flavor_text_entries?.length > 0 && (
+              <div
+                className="italic text-gray-600 p-6 cursor-pointer hover:bg-gray-50 rounded-lg transition-colors relative group"
+                onClick={handleFlavorTextClick}
+              >
+                <span className="absolute top-2 right-2 text-xs text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity">
+                  Click for another
+                </span>
+                {typeof cardData.flavor_text_entries[currentFlavorIndex] ===
+                "string"
+                  ? `"${cardData.flavor_text_entries[currentFlavorIndex]}"`
+                  : `"${cardData.flavor_text_entries[currentFlavorIndex].flavor_text}"`}
+              </div>
             )}
             {/* Stats */}
             <h2 className="text-2xl font-semibold mb-4">Stats</h2>

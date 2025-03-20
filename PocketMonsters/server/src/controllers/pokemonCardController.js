@@ -66,9 +66,14 @@ async function fetchCard(req, callback) {
       (nameObj) => nameObj.language.name !== "ja"
     );
 
+    let text = [];
+    cardData[0]?.flavor_text_entries?.forEach((str) => {
+      text.push(str.replaceAll("\n", " ").replaceAll("\f", " "));
+    });
+    cardData[0].flavor_text_entries = text;
+
     return callback(null, cardData);
   } catch (error) {
-    console.log(error);
     return callback(
       SERVER_ERROR(
         "Error on fetching data. Please re-check input and try again."
