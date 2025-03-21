@@ -7,10 +7,10 @@ export default function FiltersSection({
   onToggle,
 }) {
   return (
-    <div className="flex flex-col bg-white p-4 rounded-lg shadow-lg">
-      <h3 className="text-center text-lg font-semibold mb-3 text-gray-700">
+    <div className="flex flex-col p-4 rounded-lg shadow-lg backdrop-blur-lg">
+      <label className="text-md font-medium text-gray-700 p-2 text-center">
         {title}
-      </h3>
+      </label>
       <div className="flex flex-wrap text-center justify-center gap-2">
         {options?.map((option) => (
           <TypeBadgeToggle

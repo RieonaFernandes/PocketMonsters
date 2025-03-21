@@ -5,8 +5,7 @@ export default function PokemonCard({ pokemon }) {
   return (
     <Link
       to={`/pokemon/${pokemon.uid}`}
-      // key={pokemon.uid}
-      className="bg-white p-4 rounded-lg shadow-lg hover:shadow-xl transition-shadow"
+      className="bg-white/20 p-4 rounded-lg shadow-lg backdrop-blur-lg hover:bg-white/40 transition-shadow"
     >
       <div className="text-sm text-gray-500 text-right">
         #{pokemon.uid.toString().padStart(3, "0")}

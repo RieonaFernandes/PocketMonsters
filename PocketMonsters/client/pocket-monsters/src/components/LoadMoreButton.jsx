@@ -5,8 +5,7 @@ export default function LoadMoreButton({ loading, onClick, disabled }) {
     <button
       onClick={onClick}
       disabled={disabled || loading}
-      className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded
-               disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+      className={`px-6 py-2 rounded-full transition-all transform hover:scale-105 bg-gradient-to-r from-[#D1A7E0] to-[#A7E0D1] text-white font-bold shadow-md`}
     >
       {loading ? (
         <span className="flex items-center justify-center">

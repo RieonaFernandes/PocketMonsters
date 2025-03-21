@@ -2,10 +2,12 @@ import SizeIcon from "./sizeIcon";
 
 export default function RangeFilter({ title, options, selected, onSelect }) {
   return (
-    <div className="bg-white p-4 rounded-lg shadow-lg">
-      <h3 className="text-lg font-semibold mb-4 text-gray-700 text-center justify-center">
+    <div
+      className={"flex flex-col p-4 rounded-lg shadow-lg p-4 backdrop-blur-lg"}
+    >
+      <label className="text-md font-medium text-gray-700 p-2 text-center">
         {title}
-      </h3>
+      </label>
       <div className="flex gap-4 justify-center">
         {options?.map((option) => (
           <label

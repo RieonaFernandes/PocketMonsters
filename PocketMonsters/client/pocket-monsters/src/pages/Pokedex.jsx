@@ -196,124 +196,133 @@ export default function Pokedex() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-4">
-      <h1 className="text-4xl font-bold text-center mb-8">Pokédex</h1>
-
-      <div className="grid lg:grid-cols-4 gap-4">
-        {/* Filters Section */}
-        <div className="lg:col-span-1 space-y-4">
-          <SearchInput
-            value={searchTerm}
-            onChange={handleSearchChange}
-            onKeyPress={handleKeyPress}
-          />
-
-          <div className="space-y-6">
-            <SortSelect
-              title="Sort By"
-              value={sort}
-              onChange={(value) => {
-                setSort(value);
-                setCurrentPage(1);
-              }}
-            />
+    <div className="pokedex-background">
+      <div className="container mx-auto px-4 sm:px-6 py-4">
+        {/* Title Section */}
+        <div className="text-center mb-8 animate-fade-in-down relative">
+          <div className="inline-block bg-[#F9E265]/10 px-8 py-3 rounded-full shadow-lg backdrop-blur-lg border-2 border-[#F9E265]/20 relative overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-r from-[#F9E265]/10 via-[#D1A7E0]/10 to-[#A7E0D1]/10 rounded-full" />
+            <h1 className="relative z-10 text-4xl sm:text-5xl md:text-6xl font-bold drop-shadow-lg bg-gradient-to-r from-[#F9E265] via-[#D1A7E0] to-[#A7E0D1] bg-clip-text text-transparent">
+              Pokédex
+            </h1>
           </div>
-
-          <div className="space-y-6">
-            <FiltersSection
-              title="Filter by Types"
-              options={filterOptions?.type || []}
-              selectedValues={filters.types}
-              onToggle={handleFilterToggle("types")}
-            />
-
-            <FiltersSection
-              title="Filter by Weaknesses"
-              options={filterOptions?.type || []}
-              selectedValues={filters.weaknesses}
-              onToggle={handleFilterToggle("weaknesses")}
-            />
-
-            <div className="grid grid-cols-1 sm:grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-1 gap-4">
-              <RangeFilter
-                title="Height"
-                options={filterOptions?.height || []}
-                selected={filters.height}
-                onSelect={handleRangeFilter("height")}
-              />
-
-              <RangeFilter
-                title="Weight"
-                options={filterOptions?.weight || []}
-                selected={filters.weight}
-                onSelect={handleRangeFilter("weight")}
-              />
-            </div>
-          </div>
+          <div className="h-1 bg-gradient-to-r from-[#F9E265] via-[#D1A7E0] to-[#A7E0D1] w-1/4 mx-auto rounded-full mt-4" />
         </div>
 
-        {/* Main Content */}
-        <div className="lg:col-span-3">
-          {loading && currentPage === 1 ? (
-            // <div className="text-center mt-8">
-            //   <LoadingSpinner size={8} />
-            // </div>
-            <div className="min-h-screen flex items-center justify-center">
-              <div className="text-center">
-                <LoadingSpinner size={8} />
+        <div className="grid lg:grid-cols-4 gap-6">
+          {/* Filters Section */}
+          <div className="lg:col-span-1 space-y-6">
+            <div className="bg-white/20 backdrop-blur-lg p-6 rounded-2xl shadow-xl">
+              <SearchInput
+                value={searchTerm}
+                onChange={handleSearchChange}
+                onKeyPress={handleKeyPress}
+              />
+            </div>
+
+            <div className="bg-white/20 backdrop-blur-lg p-6 rounded-2xl shadow-xl space-y-6">
+              <SortSelect
+                title="Sort By"
+                value={sort}
+                onChange={(value) => {
+                  setSort(value);
+                  setCurrentPage(1);
+                }}
+              />
+
+              <FiltersSection
+                title="Type"
+                options={filterOptions?.type || []}
+                selectedValues={filters.types}
+                onToggle={handleFilterToggle("types")}
+              />
+
+              <FiltersSection
+                title="Weakness"
+                options={filterOptions?.type || []}
+                selectedValues={filters.weaknesses}
+                onToggle={handleFilterToggle("weaknesses")}
+              />
+
+              <div className="grid grid-cols-1 sm:grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-1 gap-4">
+                <RangeFilter
+                  title="Height"
+                  options={filterOptions?.height || []}
+                  selected={filters.height}
+                  onSelect={handleRangeFilter("height")}
+                />
+
+                <RangeFilter
+                  title="Weight"
+                  options={filterOptions?.weight || []}
+                  selected={filters.weight}
+                  onSelect={handleRangeFilter("weight")}
+                />
               </div>
             </div>
-          ) : error && pokemonList.length === 0 ? (
-            <Alert
-              type="error"
-              message="Failed to fetch Pokémon: please re-try"
-            />
-          ) : pokemonList.length === 0 ? (
-            <Alert
-              type="warning"
-              message={
-                "No Pokémon found matching " +
-                (searchTerm ? `"${searchTerm}"` : "this filter")
-              }
-            />
-          ) : (
-            <>
-              <div className="flex items-center justify-center grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {pokemonList.map((pokemon) => (
-                  <PokemonCard key={pokemon.uid} pokemon={pokemon} />
-                ))}
+          </div>
+
+          {/* Main Content */}
+          <div className="lg:col-span-3">
+            {loading && currentPage === 1 ? (
+              <div className="min-h-screen flex items-center justify-center">
+                <div className="text-center">
+                  <LoadingSpinner size={8} />
+                </div>
               </div>
-
-              {error && (
-                <div className="mt-4 text-center bg-red-100 p-4 rounded-lg">
-                  <p className="text-red-600 mb-2">{error}</p>
-                  <button
-                    onClick={loadData}
-                    className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
-                  >
-                    Retry Loading
-                  </button>
+            ) : error && pokemonList.length === 0 ? (
+              <Alert
+                type="error"
+                message="Failed to fetch Pokémon: please re-try"
+              />
+            ) : pokemonList.length === 0 ? (
+              <Alert
+                type="warning"
+                message={
+                  "No Pokémon found matching " +
+                  (searchTerm ? `"${searchTerm}"` : "this filter")
+                }
+              />
+            ) : (
+              <>
+                <div className="flex items-center justify-center grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {pokemonList.map((pokemon) => (
+                    <PokemonCard key={pokemon.uid} pokemon={pokemon} />
+                  ))}
                 </div>
-              )}
 
-              {metadata && currentPage < metadata.total_pages && (
-                <div className="mt-8 text-center">
-                  <LoadMoreButton
-                    loading={isLoadingMore}
-                    onClick={handleLoadMore}
-                    disabled={currentPage >= metadata.total_pages}
-                  />
+                {error && (
+                  <div className="mt-4 text-center bg-red-100 p-4 rounded-lg">
+                    <p className="text-red-600 mb-2">{error}</p>
+                    <button
+                      onClick={loadData}
+                      className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
+                    >
+                      Retry Loading
+                    </button>
+                  </div>
+                )}
 
-                  <p className="mt-4 text-sm text-gray-600">
-                    Showing {pokemonList.length} of {metadata.total} Pokémon
-                  </p>
-                  <p className="text-gray-600">
-                    Page {metadata.current_page} of {metadata.total_pages}
-                  </p>
-                </div>
-              )}
-            </>
-          )}
+                {metadata && currentPage < metadata.total_pages && (
+                  <div className="mt-8 text-center">
+                    <LoadMoreButton
+                      loading={isLoadingMore}
+                      onClick={handleLoadMore}
+                      disabled={currentPage >= metadata.total_pages}
+                    />
+                    <div className="mt-4 text-sm text-[#5A7D9D] space-y-1">
+                      <p>
+                        Showing {pokemonList.length} of {metadata.total} Pokémon
+                      </p>
+                      <p>
+                        Page {metadata.current_page} of {metadata.total_pages}
+                      </p>
+                    </div>
+                  </div>
+                )}
+              </>
+            )}
+          </div>
         </div>
       </div>
     </div>

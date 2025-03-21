@@ -7,7 +7,7 @@ export default function SearchInput({ value, onChange, onKeyPress }) {
         value={value}
         onChange={onChange}
         onKeyDown={onKeyPress}
-        className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="bg-white/25 focus:bg-white/45 w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
       <p className="text-sm text-gray-500 mt-1 text-center">
         Search by name (e.g. "charizard") or number (e.g. "006")

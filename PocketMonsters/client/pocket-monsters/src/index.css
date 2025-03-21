@@ -81,6 +81,14 @@ img {
   animation: pan-image 20s linear infinite;
 }
 
+.pokedex-background {
+  background-image: url('/pokedex-bg.png');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  animation: pan-image 20s linear infinite;
+}
+
 @keyframes pan-image {
   0% { background-position: 0% 0%; }
   50% { background-position: 100% 100%; }
