@@ -89,6 +89,14 @@ img {
   animation: pan-image 20s linear infinite;
 }
 
+.pokemon-background {
+  background-image: url('/pokemon-bg.gif');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  /* animation: pan-image 20s linear infinite; */
+}
+
 @keyframes pan-image {
   0% { background-position: 0% 0%; }
   50% { background-position: 100% 100%; }
@@ -112,4 +120,13 @@ img {
 
 .animate-border-pulse {
   animation: border-pulse 3s ease-in-out infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  30% { transform: translateY(-40px); }
+}
+
+.animate-bounce {
+  animation: bounce 1s infinite;
 }

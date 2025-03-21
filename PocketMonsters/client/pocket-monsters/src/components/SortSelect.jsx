@@ -10,10 +10,12 @@ export default function SortSelect({ title, value, onChange }) {
 
   return (
     <div className="space-y-2">
-      <label className="text-sm font-medium text-[#5A7D9D]">{title}</label>
+      <label className="text-md font-semibold text-gray-600 flex items-cente mb-2 px-2">
+        {title}
+      </label>
       <Listbox value={value} onChange={onChange}>
         <div className="relative">
-          <Listbox.Button className="w-full p-2 text-left rounded-lg border border-[#A3C9F1]/30 bg-white/40 focus:outline-none focus:ring-2 focus:ring-[#D1A7E0] transition-all hover:bg-[#F9E265]/20">
+          <Listbox.Button className="w-full p-2 text-left rounded-lg border border-[#A3C9F1]/30 bg-white/40 focus:outline-none focus:ring-2 focus:ring-[#D1A7E0] transition-all hover:bg-[#F9E265]/20 cursor-pointer">
             {
               options.find(
                 (opt) => JSON.stringify(opt.value) === JSON.stringify(value)

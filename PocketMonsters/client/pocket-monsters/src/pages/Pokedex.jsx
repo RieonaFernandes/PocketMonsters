@@ -200,7 +200,7 @@ export default function Pokedex() {
       <div className="container mx-auto px-4 sm:px-6 py-4">
         {/* Title Section */}
         <div className="text-center mb-8 animate-fade-in-down relative">
-          <div className="inline-block bg-[#F9E265]/10 px-8 py-3 rounded-full shadow-lg backdrop-blur-lg border-2 border-[#F9E265]/20 relative overflow-hidden">
+          <div className="inline-block bg-white/70 px-8 py-3 rounded-full shadow-lg backdrop-blur-lg border-2 border-[#F9E265]/20 relative overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-r from-[#F9E265]/10 via-[#D1A7E0]/10 to-[#A7E0D1]/10 rounded-full" />
             <h1 className="relative z-10 text-4xl sm:text-5xl md:text-6xl font-bold drop-shadow-lg bg-gradient-to-r from-[#F9E265] via-[#D1A7E0] to-[#A7E0D1] bg-clip-text text-transparent">
               Pokédex

@@ -77,6 +77,14 @@ async function getFiller(req, res) {
           return parallelCallback(null, data);
         });
       },
+      count: function (parallelCallback) {
+        pokedexController.stats((err, data) => {
+          if (err) {
+            return parallelCallback(err, null);
+          }
+          return parallelCallback(null, data);
+        });
+      },
     },
     function (err, results) {
       if (err) {

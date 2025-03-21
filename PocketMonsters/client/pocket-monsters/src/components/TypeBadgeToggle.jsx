@@ -13,7 +13,6 @@ export default function TypeBadgeToggle({ type, onClick, isSelected }) {
       }}
     >
       {type}
-      {isSelected && <span className="ml-1.5">✓</span>}
     </button>
   );
 }

@@ -134,7 +134,20 @@ async function fetchDetails(req, callback) {
   }
 }
 
+async function stats(callback) {
+  try {
+    const count = await Pokemon.countDocuments();
+    return callback(null, count);
+  } catch (error) {
+    return callback(
+      SERVER_ERROR("Error on fetching data. Please try again."),
+      null
+    );
+  }
+}
+
 module.exports = {
   fetchPokedex,
   fetchDetails,
+  stats,
 };
