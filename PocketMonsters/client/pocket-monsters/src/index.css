@@ -1,0 +1,132 @@
+@import "tailwindcss";
+
+body {
+  background-color: #f3f4f6;
+  min-height: 100vh;
+}
+:root {
+  --type-grass: #78c850;
+  --type-poison: #a040a0;
+  --type-fire: #f08030;
+  --type-flying: #a890f0;
+  --type-water: #6890f0;
+  --type-bug: #a8b820;
+  --type-dark: #705848;
+  --type-dragon: #7038f8;
+  --type-electric: #f8d030;
+  --type-fairy: #ee99ac;
+  --type-fighting: #c03028;
+  --type-ghost: #705898;
+  --type-ground: #e0c068;
+  --type-ice: #98d8d8;
+  --type-normal: #a8a878;
+  --type-psychic: #f85888;
+  --type-rock: #b8a038;
+  --type-steel: #b8b8d0;
+  --type-stellar: #6f2273;
+  --type-shadow: #66527a;
+  --type-unknown: #527a70;
+}
+
+img {
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  image-rendering: high-quality;
+}
+
+@supports (image-rendering: pixelated) {
+  img {
+    image-rendering: pixelated;
+  }
+}
+
+@keyframes fade-in-down {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+.animate-fade-in-down {
+  animation: fade-in-down 1s ease-out;
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-float-delayed {
+  animation: float 3s ease-in-out infinite 0.5s;
+}
+
+
+.home-background {
+  background-image: url('/bg.png');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  animation: pan-image 20s linear infinite;
+}
+
+.pokedex-background {
+  background-image: url('/pokedex-bg.png');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  animation: pan-image 20s linear infinite;
+}
+
+.pokemon-background {
+  background-image: url('/pokemon-bg.gif');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  /* animation: pan-image 20s linear infinite; */
+}
+
+@keyframes pan-image {
+  0% { background-position: 0% 0%; }
+  50% { background-position: 100% 100%; }
+  100% { background-position: 0% 0%; }
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes border-pulse {
+  0% { opacity: 0.2; }
+  50% { opacity: 0.4; }
+  100% { opacity: 0.2; }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 20s linear infinite;
+}
+
+.animate-border-pulse {
+  animation: border-pulse 3s ease-in-out infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  30% { transform: translateY(-40px); }
+}
+
+.animate-bounce {
+  animation: bounce 1s infinite;
+}

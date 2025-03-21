@@ -1,6 +1,6 @@
 const Type = require("../models/typeFillerSchema");
-const Weight = require("../models/heightFillerSchema");
-const Height = require("../models/weightFillerSchema");
+const Weight = require("../models/weightFillerSchema");
+const Height = require("../models/heightFillerSchema");
 const Language = require("../models/languageFillerSchema");
 const { SERVER_ERROR, NOT_FOUND } = require("../config/errors");
 

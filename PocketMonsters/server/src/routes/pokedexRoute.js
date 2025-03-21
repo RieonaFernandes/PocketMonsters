@@ -101,7 +101,7 @@ router.get("/pokedex/fillers", cacheMiddleware, pokedexService.getFiller);
 /**
  * @openapi
  * '/api/v1/pokedex':
- *   get:
+ *   post:
  *     summary: Get a list of Pokémon with filters
  *     description: Retrieve Pokémon data with pagination, search, sorting, and filters.
  *     tags:
@@ -218,7 +218,7 @@ router.get("/pokedex/fillers", cacheMiddleware, pokedexService.getFiller);
  *       500:
  *         description: Error on fetching data. Please re-check input and try again.
  */
-router.get(
+router.post(
   "/pokedex",
   validator.pokedexValidator,
   cacheMiddleware,

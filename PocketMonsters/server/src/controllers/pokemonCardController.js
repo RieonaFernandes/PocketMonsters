@@ -62,6 +62,16 @@ async function fetchCard(req, callback) {
       return callback(NOT_FOUND("No pokemon found."), null);
     }
 
+    cardData[0].names = cardData[0]?.names?.filter(
+      (nameObj) => nameObj.language.name !== "ja"
+    );
+
+    let text = [];
+    cardData[0]?.flavor_text_entries?.forEach((str) => {
+      text.push(str.replaceAll("\n", " ").replaceAll("\f", " "));
+    });
+    cardData[0].flavor_text_entries = text;
+
     return callback(null, cardData);
   } catch (error) {
     return callback(
