@@ -22,6 +22,8 @@ import {
   ArrowLeftIcon,
   ArrowRightIcon,
 } from "@heroicons/react/24/outline";
+const apiUrl = import.meta.env.VITE_APP_API_BASE_URL;
+const pokedexEndpoint = import.meta.env.VITE_APP_POKEDEX_ENDPOINT;
 
 export default function Pokemon() {
   const { id } = useParams();
@@ -40,7 +42,7 @@ export default function Pokemon() {
     const fetchFilterOptions = async () => {
       try {
         const response = await fetch(
-          `http://localhost:4000/api/v1/pokedex/fillers?timestamp=${Date.now()}`
+          `${apiUrl}${pokedexEndpoint}/fillers?timestamp=${Date.now()}`
         );
         if (!response.ok) {
           throw new Error(
@@ -59,7 +61,7 @@ export default function Pokemon() {
     const fetchPokemonDetails = async () => {
       try {
         const response = await fetch(
-          `http://localhost:4000/api/v1/pokedex/${id}?timestamp=${Date.now()}`
+          `${apiUrl}${pokedexEndpoint}/${id}?timestamp=${Date.now()}`
         );
         if (!response.ok) throw new Error("Pokémon not found");
 
