@@ -22,6 +22,10 @@ import {
   ArrowLeftIcon,
   ArrowRightIcon,
 } from "@heroicons/react/24/outline";
+const apiUrl = import.meta.env.VITE_APP_API_BASE_URL;
+const pokedexEndpoint = import.meta.env.VITE_APP_POKEDEX_ENDPOINT;
+const poke_ball = import.meta.env.VITE_GEN5_POKE_BALL_IMG;
+const animated_pokemon = import.meta.env.VITE_ANIMATED_POKEMONS;
 
 export default function Pokemon() {
   const { id } = useParams();
@@ -40,7 +44,7 @@ export default function Pokemon() {
     const fetchFilterOptions = async () => {
       try {
         const response = await fetch(
-          `http://localhost:4000/api/v1/pokedex/fillers?timestamp=${Date.now()}`
+          `${apiUrl}${pokedexEndpoint}/fillers?timestamp=${Date.now()}`
         );
         if (!response.ok) {
           throw new Error(
@@ -59,7 +63,7 @@ export default function Pokemon() {
     const fetchPokemonDetails = async () => {
       try {
         const response = await fetch(
-          `http://localhost:4000/api/v1/pokedex/${id}?timestamp=${Date.now()}`
+          `${apiUrl}${pokedexEndpoint}/${id}?timestamp=${Date.now()}`
         );
         if (!response.ok) throw new Error("Pokémon not found");
 
@@ -186,7 +190,7 @@ export default function Pokemon() {
                           : pokemonData.image
                       }
                       alt={pokemonData.name}
-                      className="w-full h-full object-contain transition-transform duration-300 hover:scale-105 p-4"
+                      className="w-full h-full object-contain transition-transform duration-300 hover:scale-105 p-4 py-7"
                     />
 
                     {pokemonData.gif && (
@@ -386,35 +390,35 @@ export default function Pokemon() {
                   </div>
                 </div>
                 {/* Animated Gif and Bouncing Pokéballs */}
-                <div className="flex justify-between items-center group gap-2">
+                <div className="flex items-center xs:justify-center justify-between overflow-hidden group gap-2">
                   <img
-                    src="https://github.com/PokeAPI/sprites/blob/master/sprites/items/gen5/poke-ball.png?raw=true"
-                    className="w-2 xs:w-2 sm:w-4 md:w-6 lg:w-8 h-2 xs:h-2 sm:h-4 md:h-6 lg:h-8 animate-bounce"
+                    src={`${poke_ball}`}
+                    className="w-2 sm:w-4 md:w-6 lg:w-8 h-2 sm:h-4 md:h-6 lg:h-8 animate-bounce"
                     alt="Pokéball"
                     style={{ animationDelay: "0.5s" }}
                   />
                   <img
                     src={
                       pokemonData.gif
-                        ? `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/${pokemonData.uid}.gif`
-                        : "https://github.com/PokeAPI/sprites/blob/master/sprites/items/gen5/poke-ball.png?raw=true"
+                        ? `${animated_pokemon}/${pokemonData.uid}.gif`
+                        : `${poke_ball}`
                     }
                     className={
                       pokemonData.gif
-                        ? "w-16 xs:w-16 sm:w-18 md:w-20 lg:w-22 h-16 xs:h-16 sm:h-18 md:h-20 lg:h-22"
-                        : "w-7 xs:w-7 sm:w-9 md:w-11 lg:w-13 h-7 xs:h-7 sm:h-9 md:h-11 lg:h-13 animate-bounce"
+                        ? "w-16 sm:w-18 md:w-20 lg:w-22 h-16 sm:h-18 md:h-20 lg:h-22"
+                        : "w-7 sm:w-9 md:w-11 lg:w-13 h-7 sm:h-9 md:h-11 lg:h-13 animate-bounce"
                     }
                     alt="Pokémon"
                     style={{ animationDelay: "0.2s" }}
                   />
                   <img
-                    src="https://github.com/PokeAPI/sprites/blob/master/sprites/items/gen5/poke-ball.png?raw=true"
-                    className="w-5 xs:w-5 sm:w-7 md:w-9 lg:w-11 h-5 xs:h-5 sm:h-7 md:h-9 lg:h-11 animate-bounce"
+                    src={`${poke_ball}`}
+                    className="w-5 sm:w-7 md:w-9 lg:w-11 h-5 sm:h-7 md:h-9 lg:h-11 animate-bounce"
                     alt="Pokéball"
                     style={{ animationDelay: "0.3s" }}
                   />
                   <img
-                    src="https://github.com/PokeAPI/sprites/blob/master/sprites/items/gen5/poke-ball.png?raw=true"
+                    src={`${poke_ball}`}
                     className="w-2 sm:w-2 md:w-3 lg:w-5 h-2 sm:h-2 md:h-3 lg:h-5 animate-bounce"
                     alt="Pokéball"
                     style={{ animationDelay: "0.1s" }}
@@ -459,11 +463,11 @@ export default function Pokemon() {
             )}
           </div>
           {/* Next pages */}
-          <div className="flex justify-between mt-8 mb-4 px-4">
+          <div className="flex gap-2 justify-between mt-8 mb-4 px-4">
             <button
               onClick={handlePrevious}
               disabled={currentId === 1}
-              className={`px-6 py-2 rounded-full transition-all transform hover:scale-105 bg-gradient-to-r from-[#D1A7E0] to-[#A7E0D1] text-white font-bold shadow-md flex items-center gap-2 ${
+              className={`px-6 py-2 rounded-full transition-all transform hover:scale-105 bg-gradient-to-r from-[#D1A7E0] to-[#A7E0D1] text-white font-bold shadow-md flex items-center justify-center gap-2 ${
                 currentId === 1
                   ? "opacity-50 cursor-not-allowed"
                   : "hover:scale-105 cursor-pointer"
@@ -474,7 +478,7 @@ export default function Pokemon() {
 
             <button
               onClick={handleNext}
-              className={`px-6 py-2 rounded-full transition-all transform hover:scale-105 bg-gradient-to-r from-[#D1A7E0] to-[#A7E0D1] text-white font-bold shadow-md flex items-center gap-2 ${
+              className={`px-6 py-2 rounded-full transition-all transform hover:scale-105 bg-gradient-to-r from-[#D1A7E0] to-[#A7E0D1] text-white font-bold shadow-md flex items-center justify-center gap-2 ${
                 currentId === count
                   ? "opacity-50 cursor-not-allowed"
                   : "hover:scale-105 cursor-pointer"

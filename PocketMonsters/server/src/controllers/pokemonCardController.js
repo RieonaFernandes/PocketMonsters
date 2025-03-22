@@ -48,9 +48,9 @@ async function fetchCard(req, callback) {
           _id: 0, // project fields that you need in the final result
           name: 1,
           names: 1,
-          evolution_chain: 1,
-          color: 1,
-          generation: 1,
+          // evolution_chain: 1,
+          // color: 1,
+          // generation: 1,
           habitat: 1,
           flavor_text_entries: 1,
         },

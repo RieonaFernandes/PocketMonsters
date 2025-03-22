@@ -8,6 +8,9 @@ import FiltersSection from "../components/FiltersSection";
 import RangeFilter from "../components/RangeFilter";
 import SortSelect from "../components/SortSelect";
 
+const apiUrl = import.meta.env.VITE_APP_API_BASE_URL;
+const pokedexEndpoint = import.meta.env.VITE_APP_POKEDEX_ENDPOINT;
+
 export default function Pokedex() {
   const [pokemonList, setPokemonList] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -34,7 +37,7 @@ export default function Pokedex() {
     const fetchFilterOptions = async () => {
       try {
         const response = await fetch(
-          `http://localhost:4000/api/v1/pokedex/fillers?timestamp=${Date.now()}`
+          `${apiUrl}${pokedexEndpoint}/fillers?timestamp=${Date.now()}`
         );
 
         if (!response.ok) {
@@ -56,7 +59,7 @@ export default function Pokedex() {
   const fetchPokemon = useCallback(
     async (page, search = "") => {
       try {
-        const response = await fetch("http://localhost:4000/api/v1/pokedex", {
+        const response = await fetch(`${apiUrl}${pokedexEndpoint}`, {
           method: "POST",
           headers: {
             // "x-forwarded-proto": "https",

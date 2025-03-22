@@ -25,7 +25,7 @@ const corsOptions = {
   allowedHeaders: ["Content-Type"],
 };
 
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
 app.disable("x-powered-by"); // less hackers know about our stack
 app.use(requestLogger); // log API calls
 app.use("/api/v1/", limiter);
@@ -42,7 +42,10 @@ app.use((req, res, next) => {
   // res.header("Access-Control-Allow-Header", "*");
 
   // Encrypting the traffic
-  if (req.headers["x-forwarded-proto"] !== "https") {
+  if (
+    process.env.ENV === "prod" &&
+    req.headers["x-forwarded-proto"] !== "https"
+  ) {
     return res.redirect(`https://${req.headers.host}${req.url}`);
   }
 
