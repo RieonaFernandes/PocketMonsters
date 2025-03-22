@@ -42,7 +42,10 @@ app.use((req, res, next) => {
   // res.header("Access-Control-Allow-Header", "*");
 
   // Encrypting the traffic
-  if (req.headers["x-forwarded-proto"] !== "https") {
+  if (
+    process.env.ENV === "prod" &&
+    req.headers["x-forwarded-proto"] !== "https"
+  ) {
     return res.redirect(`https://${req.headers.host}${req.url}`);
   }
 
