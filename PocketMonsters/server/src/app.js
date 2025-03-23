@@ -25,7 +25,7 @@ const corsOptions = {
   allowedHeaders: ["Content-Type"],
 };
 
-// app.use(cors(corsOptions));
+app.use(cors(corsOptions));
 app.disable("x-powered-by"); // less hackers know about our stack
 app.use(requestLogger); // log API calls
 app.use("/api/v1/", limiter);
