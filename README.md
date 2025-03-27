@@ -71,19 +71,40 @@ Has an Introduction and a Nav bar to help navigate between Home and Pokédex pag
 <li>Pokédex Page</li><br/>
 Has a list of Pokémon sorted according to their ID number.<br/>
 You can:<br/>
-<ol>
-<li> Search the Pokédex based on ```uid``` or ```name```.</li>
-<li> Sort the dex based on ```uid``` or ```name```.</li>
-<li> Filter based on the ```type```.</li>
-<li> Filter based on their ```Weaknesses```.</li>
-<li> Select a Pokémon of interest to go to the ```Pokémon page```.</li>
+<ol type="1">
+<li> 
+  
+  Search the Pokédex based on ```uid``` or ```name```.</li>
+<li> 
+  
+  Sort the dex based on ```uid``` or ```name```.</li>
+<li> 
+  
+  Filter based on the ```type```.</li>
+<li> 
+  
+  Filter based on their ```Weaknesses```.</li>
+<li> 
+  
+  Filter based on their ```Height```.</li>
+<li> 
+  
+  Filter based on their ```Weight```.</li>
+<li> 
+  
+  Select a Pokémon of interest to go to the ```Pokémon page```.</li>
 </ol>
 
-<br/><br/>
+<br/>
 
 <li>Pokémon Page</li><br/>
 This has the specific Pokémon related information.
+<ol type="1">
+  <li> 
+  
+  Hover over the image to get it animated gif (only available up till ```Id 920```).</li>
+  <li> 
+  
+  Click on the ```Pokédex Entries``` to get a new entry each time.</li>
 
-1. Hover over the image to get it animated gif (only available up till ```Id 920```).
-2. Click on the ```Pokédex Entries``` to get a new entry each time.
 </ul>
