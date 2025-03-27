@@ -1,11 +1,14 @@
 <div align="center">
 <pre>
+  <div align="center">
 .   █████╗  ██████╗  █████╗  ██╗   ██╗ ███████╗████████╗
 .  ██╔══██╗██╔═══██╗██╔═══██ ██╔══██╗  ██╔════╝   ██╔══╝
 ███████║██║   ██║██║      █████║    █████╗     ██║
 ██╔══ ═╝██║   ██║██║   ██╗██╔═ ██╗  ██╔══╝     ██║
 ██║     ╚██████╔╝╚██████╔╝██║   ██║ ███████╗   ██║
 ╚═╝      ╚═════╝  ╚═════╝ ╚═╝   ╚═╝ ╚══════╝   ╚═╝
+  </div>
+  <div align="center">
 
 ████╗     ████╗ ██████╗ ████╗     ██╗ ███████╗████████╗███████╗ ███████╗ ███████╗
 ██╔ ██║ ██║ ██║██╔═══██╗██╔ ██║   ██║ ██╔════╝   ██╔══╝██╔════╝ ██╔═══██╗██╔════╝
@@ -13,8 +16,11 @@
 ██║   ╚═╝   ██║██║   ██║██║   ██║ ██║ ╚════██║   ██║   ██╔══╝   ██╔═══██╗╚════██║
 ██║         ██║╚██████╔╝██║    █████║ ███████║   ██║   ███████╗ ██║   ██║███████║
 ╚═╝         ╚═╝ ╚═════╝ ╚═╝    ╚════╝ ╚══════╝   ╚═╝   ╚══════╝ ╚═╝   ╚═╝╚══════╝
+</div>
 ---------------------------------------------------
-Pocket Monsters: A Comprehensive Pokémon Pokedex; is a full-stack application serving as an extensive Pokémon database.
+<br/>
+This is a Comprehensive Pokémon Pokedex; a full-stack application serving as an extensive Pokémon database.
+
 </pre>
 I grew up watching Pokémon and had this full deck of cards that I always played with as a kid. Working on this project was a blast and really brought back those fun memories. I hope it sparks some nostalgia for you as well!
 </div>
