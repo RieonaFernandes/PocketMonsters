@@ -8,7 +8,7 @@ export default function FiltersSection({
 }) {
   return (
     <div className="space-y-2">
-      <label className="text-md font-semibold text-gray-600 flex items-cente mb-2 px-2">
+      <label className="text-md font-semibold text-gray-600 flex items-center mb-2 px-2">
         {title}
       </label>
       <div className="flex flex-col p-4 rounded-lg shadow-lg backdrop-blur-lg">

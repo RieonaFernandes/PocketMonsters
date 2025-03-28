@@ -8,6 +8,7 @@ import FiltersSection from "../components/FiltersSection";
 import RangeFilter from "../components/RangeFilter";
 import SortSelect from "../components/SortSelect";
 import Footer from "../components/Footer";
+import { RxCaretDown, RxCaretUp } from "react-icons/rx";
 
 const apiUrl = import.meta.env.VITE_APP_API_BASE_URL;
 const pokedexEndpoint = import.meta.env.VITE_APP_POKEDEX_ENDPOINT;
@@ -32,6 +33,7 @@ export default function Pokedex() {
     sortBy: "uid",
     sortOrder: 1,
   });
+  const [filterSection, setFilterSection] = useState(false);
 
   // Fetch filter options on mount
   useEffect(() => {
@@ -155,6 +157,24 @@ export default function Pokedex() {
     }
   };
 
+  const resetFilters = (e) => {
+    setFilters({
+      types: [],
+      weaknesses: [],
+      height: null,
+      weight: null,
+    });
+    setSort({
+      sortBy: "uid",
+      sortOrder: 1,
+    });
+    setCurrentPage(1);
+  };
+
+  const minimiseFilters = (e) => {
+    setFilterSection(!filterSection);
+  };
+
   if (loading && currentPage === 1) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -201,7 +221,7 @@ export default function Pokedex() {
 
   return (
     <div className="pokedex-background">
-      <main className="p-20">
+      <main className="py-20">
         <div className="container mx-auto px-4 sm:px-6 py-4">
           {/* Title Section */}
           <div className="text-center mb-8 animate-fade-in-down relative">
@@ -214,9 +234,9 @@ export default function Pokedex() {
             <div className="h-1 bg-gradient-to-r from-[#F9E265] via-[#D1A7E0] to-[#A7E0D1] w-1/4 mx-auto rounded-full mt-4" />
           </div>
 
-          <div className="grid lg:grid-cols-4 gap-6">
+          <div className="grid lg:grid-cols-7 gap-6">
             {/* Filters Section */}
-            <div className="lg:col-span-1 space-y-6">
+            <div className="lg:col-span-2 space-y-6">
               <div className="bg-white/20 backdrop-blur-lg p-6 rounded-2xl shadow-xl">
                 <SearchInput
                   value={searchTerm}
@@ -226,49 +246,76 @@ export default function Pokedex() {
               </div>
 
               <div className="bg-white/20 backdrop-blur-lg p-6 rounded-2xl shadow-xl space-y-6">
-                <SortSelect
-                  title="Sort By"
-                  value={sort}
-                  onChange={(value) => {
-                    setSort(value);
-                    setCurrentPage(1);
-                  }}
-                />
+                {filterSection ? (
+                  <>
+                    <SortSelect
+                      title="Sort By"
+                      value={sort}
+                      onChange={(value) => {
+                        setSort(value);
+                        setCurrentPage(1);
+                      }}
+                    />
 
-                <FiltersSection
-                  title="Type"
-                  options={filterOptions?.type || []}
-                  selectedValues={filters.types}
-                  onToggle={handleFilterToggle("types")}
-                />
+                    <FiltersSection
+                      title="Type"
+                      options={filterOptions?.type || []}
+                      selectedValues={filters.types}
+                      onToggle={handleFilterToggle("types")}
+                    />
 
-                <FiltersSection
-                  title="Weakness"
-                  options={filterOptions?.type || []}
-                  selectedValues={filters.weaknesses}
-                  onToggle={handleFilterToggle("weaknesses")}
-                />
+                    <FiltersSection
+                      title="Weakness"
+                      options={filterOptions?.type || []}
+                      selectedValues={filters.weaknesses}
+                      onToggle={handleFilterToggle("weaknesses")}
+                    />
 
-                <div className="grid grid-cols-1 sm:grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-1 gap-4">
-                  <RangeFilter
-                    title="Height"
-                    options={filterOptions?.height || []}
-                    selected={filters.height}
-                    onSelect={handleRangeFilter("height")}
-                  />
+                    <div className="grid grid-cols-1 sm:grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-1 gap-4">
+                      <RangeFilter
+                        title="Height"
+                        options={filterOptions?.height || []}
+                        selected={filters.height}
+                        onSelect={handleRangeFilter("height")}
+                      />
 
-                  <RangeFilter
-                    title="Weight"
-                    options={filterOptions?.weight || []}
-                    selected={filters.weight}
-                    onSelect={handleRangeFilter("weight")}
-                  />
-                </div>
+                      <RangeFilter
+                        title="Weight"
+                        options={filterOptions?.weight || []}
+                        selected={filters.weight}
+                        onSelect={handleRangeFilter("weight")}
+                      />
+                    </div>
+
+                    <div className="place-items-center">
+                      <button
+                        onClick={resetFilters}
+                        className="text-center flex items-center justify-center px-6 py-2 rounded-full transition-all transform hover:scale-105 bg-gradient-to-r from-[#D1A7E0] to-[#A7E0D1] text-white font-bold shadow-md cursor-pointer"
+                      >
+                        Reset
+                      </button>
+                    </div>
+                  </>
+                ) : (
+                  <label className="text-center justify-center text-md font-semibold text-gray-600 flex items-cente mb-2 px-2">
+                    Show Advanced Filters
+                  </label>
+                )}
+                <button
+                  onClick={minimiseFilters}
+                  className="text-center text-2xl bg-white/40 rounded-full flex items-center justify-center w-full py-2 text-white font-bold cursor-pointer transition-all hover:bg-white/60"
+                >
+                  {filterSection ? (
+                    <RxCaretUp className="text-white font-semibold" />
+                  ) : (
+                    <RxCaretDown className="text-white font-semibold" />
+                  )}
+                </button>
               </div>
             </div>
 
             {/* Main Content */}
-            <div className="lg:col-span-3">
+            <div className="lg:col-span-5">
               {loading && currentPage === 1 ? (
                 <div className="min-h-screen flex items-center justify-center">
                   <div className="text-center">
