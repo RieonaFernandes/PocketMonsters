@@ -34,6 +34,7 @@ export default function Pokedex() {
     sortOrder: 1,
   });
   const [filterSection, setFilterSection] = useState(false);
+  const [isInvalid, setIsInvalid] = useState(false);
 
   // Fetch filter options on mount
   useEffect(() => {
@@ -141,7 +142,20 @@ export default function Pokedex() {
   };
 
   const handleSearchChange = (e) => {
-    setSearchTerm(e.target.value);
+    const originalValue = e.target.value;
+    // Sanitize input while allowing spaces
+    const sanitizedValue = originalValue.replace(/[^a-zA-Z0-9 ]/g, "");
+
+    // Check if any characters were removed
+    if (originalValue !== sanitizedValue) {
+      setIsInvalid(true);
+      // Optional: Trigger visual feedback briefly
+      setTimeout(() => setIsInvalid(false), 2000);
+    } else {
+      setIsInvalid(false);
+    }
+
+    setSearchTerm(sanitizedValue);
   };
 
   const handleKeyPress = (e) => {
@@ -242,6 +256,7 @@ export default function Pokedex() {
                   value={searchTerm}
                   onChange={handleSearchChange}
                   onKeyPress={handleKeyPress}
+                  validity={isInvalid}
                 />
               </div>
 
