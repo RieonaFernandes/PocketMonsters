@@ -16,7 +16,7 @@ export default function SearchInput({
         title="Only letters and numbers are allowed"
         className={
           "bg-white/25 focus:bg-white/45 w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500" +
-          `border ${
+          ` border ${
             isInvalid ? "border-red-500 shake-animation" : "border-gray-300"
           }`
         }
