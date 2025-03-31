@@ -1,16 +1,20 @@
 const { POKEMON_TYPES } = require("../utils/constants");
 const { BAD_REQUEST } = require("../config/errors");
 
-// validate input provided first
 async function pokedexValidator(req, res, next) {
-  if (req.body?.limit)
-    if (req.body.limit > 25)
-      return next(BAD_REQUEST("Validation error: limit cannot exceed 25"));
+  if (req.body?.limit) {
+    if (typeof req.body.limit !== "number" || req.body?.limit > 25)
+      return next(BAD_REQUEST("Validation error: Invalid limit"));
+  }
   if (req.body?.sortBy)
     if (!["uid", "name"].includes(req.body.sortBy))
       return next(
         BAD_REQUEST("Validation error: Sorting can be done by id or by name")
       );
+  if (req.body?.page <= 0) {
+    console.log("throw error");
+    return next(BAD_REQUEST("Validation error: Invalid page request."));
+  }
   if (req.body?.sortOrder)
     if (![1, -1].includes(req.body.sortOrder))
       return next(
@@ -31,31 +35,32 @@ async function pokedexValidator(req, res, next) {
         BAD_REQUEST(`Validation error: valid weaknesses are: ${POKEMON_TYPES}`)
       );
   if (req.body?.minHeight)
-    if (req.body.minHeight < 0)
+    if (typeof req.body.minHeight !== "number" || req.body.minHeight < 0)
       return next(
         BAD_REQUEST(
-          "Validation error: minimum hight value has to be greater that 0"
+          "Validation error: minimum height value has to be a positive number"
         )
       );
-  if (req.body?.maxHeight)
-    if (req.body.maxHeight < 0)
+  if (req.body?.maxHeight) {
+    if (typeof req.body.maxHeight !== "number" || req.body.maxHeight < 0)
       return next(
         BAD_REQUEST(
-          "Validation error: maximum hight value has to be greater that 0"
+          "Validation error: maximum height value has to be a positive number"
         )
       );
+  }
   if (req.body?.minWeight)
-    if (req.body.minWeight < 0)
+    if (typeof req.body.minWeight !== "number" || req.body.minWeight < 0)
       return next(
         BAD_REQUEST(
-          "Validation error: minimum weight value has to be greater that 0"
+          "Validation error: minimum weight value has to be a positive number"
         )
       );
   if (req.body?.maxWeight)
-    if (req.body.maxWeight < 0)
+    if (typeof req.body.maxWeight !== "number" || req.body.maxWeight < 0)
       return next(
         BAD_REQUEST(
-          "Validation error: maximum weight value has to be greater that 0"
+          "Validation error: maximum weight value has to be a positive number"
         )
       );
   next();

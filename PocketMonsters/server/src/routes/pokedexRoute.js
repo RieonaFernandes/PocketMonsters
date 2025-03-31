@@ -303,6 +303,9 @@ router.post(
  *                       gif:
  *                         type: string
  *                         example: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown/5.gif"
+ *                       gif2:
+ *                         type: string
+ *                         example: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/5.gif"
  *                       abilities:
  *                         type: array
  *                         items:

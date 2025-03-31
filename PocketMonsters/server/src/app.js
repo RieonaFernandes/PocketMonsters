@@ -1,6 +1,7 @@
 const express = require("express");
 require("dotenv").config();
-require("./config/mongoConnection");
+// require("./config/mongoConnection");
+const mongoConnection = require("./config/mongoConnection"); // Changed from require to function reference
 const bodyParser = require("body-parser");
 const requestLogger = require("./middlewares/requestLogger");
 const rateLimit = require("express-rate-limit");
@@ -14,7 +15,8 @@ const swaggerDocs = require("./config/swaggerConfig");
 const app = express();
 const limiter = rateLimit({
   windowMs: 5 * 60 * 1000, // 5 minutes
-  max: 500, // limit each IP to 500 requests per windowMs
+  // max: 500,
+  max: process.env.ENV === "test" ? 10000 : 500, // limit each IP to 500 requests per windowMs
   message: "Too many requests from this IP, please try again later.", // error message
   standardHeaders: true, // Send RateLimit headers
   legacyHeaders: false, // Disable X-RateLimit headers
@@ -71,8 +73,22 @@ app.use("/api/v1/", pokedexRoute);
 app.use(errors.errorHandler);
 
 // Start server
-app.listen(port, () => {
-  console.log(`Server is running on ${process.env.HOST}:${port}`);
-  swaggerDocs(app, port);
-  console.log(`OpenAPI Docs available at ${process.env.HOST}:${port}/docs`);
-});
+const startServer = async () => {
+  try {
+    await mongoConnection();
+    app.listen(port, () => {
+      console.log(`Server is running on ${process.env.HOST}:${port}`);
+      swaggerDocs(app, port);
+      console.log(`OpenAPI Docs available at ${process.env.HOST}:${port}/docs`);
+    });
+  } catch (error) {
+    console.error("Failed to start server:", error);
+    process.exit(1);
+  }
+};
+
+if (process.env.ENV !== "test") {
+  startServer();
+}
+
+module.exports = app;
