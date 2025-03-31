@@ -7,6 +7,7 @@ const requestLogger = require("./middlewares/requestLogger");
 const rateLimit = require("express-rate-limit");
 const cors = require("cors");
 const xssClean = require("xss-clean");
+const helmet = require("helmet");
 
 const errors = require("./middlewares/errorHandler");
 const pokedexRoute = require("./routes/pokedexRoute");
@@ -27,6 +28,22 @@ const corsOptions = {
   allowedHeaders: ["Content-Type"],
 };
 
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: ["'self'", "trusted-scripts.example.com"],
+        styleSrc: ["'self'", "'unsafe-inline'"],
+        imgSrc: ["'self'", "data:", "cdn.example.com"],
+        fontSrc: ["'self'", "fonts.gstatic.com"],
+        connectSrc: ["'self'"],
+        frameAncestors: ["'none'"],
+        objectSrc: ["'none'"],
+      },
+    },
+  })
+); // Basic security headers
 app.use(cors(corsOptions));
 app.disable("x-powered-by"); // less hackers know about our stack
 app.use(requestLogger); // log API calls
@@ -52,10 +69,10 @@ app.use((req, res, next) => {
   }
 
   //set CSP to restricts the loading of resources to the same origin ('self'), not allows embedding the page in a frame, only allows connections to the same origin, and prevents the loading of plugins or embedded objects.
-  res.setHeader(
-    "Content-Security-Policy",
-    `default-src 'self'; "frame-ancestors 'none'; connect-src 'self'; object-src 'none';`
-  );
+  // res.setHeader(
+  //   "Content-Security-Policy",
+  //   `default-src 'self'; "frame-ancestors 'none'; connect-src 'self'; object-src 'none';`
+  // );
   next();
 });
 

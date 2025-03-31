@@ -21,12 +21,16 @@ async function pokedexValidator(req, res, next) {
         BAD_REQUEST("Validation error: Sort order can have value 1 or -1")
       );
   if (req.body?.type)
-    if (!req.body.type.split(",").every((item) => POKEMON_TYPES.includes(item)))
+    if (
+      typeof req.body.type !== "string" ||
+      !req.body.type.split(",").every((item) => POKEMON_TYPES.includes(item))
+    )
       return next(
         BAD_REQUEST(`Validation error: valid types are: ${POKEMON_TYPES}`)
       );
   if (req.body?.weakness)
     if (
+      typeof req.body.weakness !== "string" ||
       !req.body.weakness
         .split(",")
         .every((item) => POKEMON_TYPES.includes(item))
@@ -63,6 +67,12 @@ async function pokedexValidator(req, res, next) {
           "Validation error: maximum weight value has to be a positive number"
         )
       );
+  if (req.body?.search) {
+    let pattern = /[^a-zA-Z0-9 ]/;
+    if (pattern.test(req.body?.search)) {
+      return next(BAD_REQUEST("Validation error: Invalid search request."));
+    }
+  }
   next();
 }
 
