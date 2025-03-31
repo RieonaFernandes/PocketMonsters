@@ -67,6 +67,12 @@ async function pokedexValidator(req, res, next) {
           "Validation error: maximum weight value has to be a positive number"
         )
       );
+  if (req.body?.search) {
+    let pattern = /[^a-zA-Z0-9 ]/;
+    if (pattern.test(req.body?.search)) {
+      return next(BAD_REQUEST("Validation error: Invalid search request."));
+    }
+  }
   next();
 }
 
