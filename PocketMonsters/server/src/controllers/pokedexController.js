@@ -1,5 +1,5 @@
 const Pokemon = require("../models/PokedexSchema");
-const { SERVER_ERROR, NOT_FOUND } = require("../config/errors");
+const { SERVER_ERROR, NOT_FOUND, BAD_REQUEST } = require("../config/errors");
 
 async function fetchPokedex(query, callback) {
   try {
@@ -74,6 +74,15 @@ async function fetchPokedex(query, callback) {
       },
     };
 
+    if (
+      (Math.ceil(count / limit) >= 1 &&
+        parseInt(page) > Math.ceil(count / limit)) ||
+      (Math.ceil(count / limit) == 0 && parseInt(page) !== 1)
+    ) {
+      //current page (parseInt(page)) requested is greater than total pages (Math.ceil(count / limit))
+      return callback(BAD_REQUEST("Invalid Request."), null);
+    }
+
     return callback(null, result);
   } catch (err) {
     return callback(
@@ -98,6 +107,7 @@ async function fetchDetails(req, callback) {
           weight: 1,
           image: "$images.front_default",
           gif: "$sprites.other.showdown.front_default",
+          gif2: "$sprites.versions.generation-v.black-white.animated.front_default",
           type: 1,
           weaknesses: 1,
           stats: 1,

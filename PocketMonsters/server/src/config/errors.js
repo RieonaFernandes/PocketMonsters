@@ -3,7 +3,7 @@ const { ERROR_TYPES } = require("../utils/constants");
 class AppError extends Error {
   constructor(type, message, additionalData = {}) {
     super(message);
-    this.statusCode = ERROR_TYPES[type] || 500; // Defaults to 500 if type is not found
+    this.code = ERROR_TYPES[type] || 500; // Defaults to 500 if type is not found
     this.details = { message, ...additionalData };
   }
 }

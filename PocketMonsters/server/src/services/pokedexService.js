@@ -6,7 +6,7 @@ const async = require("async");
 async function getPokedex(req, res) {
   pokedexController.fetchPokedex(req.body, (err, data) => {
     if (err) {
-      return res.status(err?.statusCode || 500).json(err);
+      return res.status(err?.code || 500).json(err);
     }
     return res.json(data);
   });
@@ -35,7 +35,7 @@ async function getCard(req, res) {
     },
     function (err, results) {
       if (err) {
-        return res.status(err?.statusCode || 500).json(err);
+        return res.status(err?.code || 500).json(err);
       }
       return res.json(results);
     }
@@ -88,7 +88,7 @@ async function getFiller(req, res) {
     },
     function (err, results) {
       if (err) {
-        return res.status(err?.statusCode || 500).json(err);
+        return res.status(err?.code || 500).json(err);
       }
       return res.json(results);
     }

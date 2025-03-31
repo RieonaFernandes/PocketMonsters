@@ -392,7 +392,7 @@ export default function Pokemon() {
                     </div>
                   </div>
                   {/* Animated Gif and Bouncing Pokéballs */}
-                  <div className="flex items-center xs:justify-center justify-between overflow-hidden group gap-2">
+                  <div className="flex items-center p-5 xs:justify-center justify-between overflow-hidden group gap-2">
                     <img
                       src={`${poke_ball}`}
                       className="w-2 sm:w-4 md:w-6 lg:w-8 h-2 sm:h-4 md:h-6 lg:h-8 animate-bounce"
@@ -401,12 +401,12 @@ export default function Pokemon() {
                     />
                     <img
                       src={
-                        pokemonData.gif
+                        pokemonData.gif2
                           ? `${animated_pokemon}/${pokemonData.uid}.gif`
                           : `${poke_ball}`
                       }
                       className={
-                        pokemonData.gif
+                        pokemonData.gif2
                           ? "w-16 sm:w-18 md:w-20 lg:w-22 h-16 sm:h-18 md:h-20 lg:h-22"
                           : "w-7 sm:w-9 md:w-11 lg:w-13 h-7 sm:h-9 md:h-11 lg:h-13 animate-bounce"
                       }
